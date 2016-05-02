@@ -1,0 +1,3 @@
+Branches:
+master -> Rama protegida, sólo vamos a utilizarla para guardar la versión final estable. Sólo es controlada por el administrador/director del proyecto. 
+verBeta -> Rama utilizada para guardar la versión beta no estable.
