@@ -16,7 +16,7 @@
         <header id="header"> 
             <h1>Datos :D</h1>
         </header>
-        <form action="Register" method="post">
+        <form action="RegisterPersonal" method="post">
             <fieldset>
                 <legend>Datos Personales</legend>
                 <!--Nombres-->
@@ -30,12 +30,7 @@
                 <br>
                 <!--Documento-->
                 <div>                    
-                    <select name="ndi" id="ndi">
-                        <option value="Cédula de Ciudadanía">C.C.</option>
-                        <option value="Tarjeta de Identidad">T.I.</option>
-                        <option value="Registro Civil">R.C.</option>
-                    </select>
-                    <input type="text" name="ndivalue" id="ndivalue" placeholder="Documento" pattern="[0-9]+" title="Sólo Números" required=""/>
+                    Cédula de Ciudadanía:<input type="text" name="ndivalue" id="ndivalue" placeholder="Documento" pattern="[0-9]+" title="Sólo Números" required=""/>
                 </div>
                 <br>
                 <!--Genero-->
@@ -54,29 +49,25 @@
                     Fecha de Nacimiento <input type="date" id="birthDate" name="birthDate" style="color:#000000;background:rgba(144, 144, 144, 0.25)">
                 </div>
                 <br>
-                <!--Estado Civil-->
-                <div>
-                    Estado Civil: <select name="maritalStatus" id="maritalStatus">
-                        <option value="M">Casado(a)</option>
-                        <option value="U">Soltero(a)</option>
-                        <option value="T">Unión Libre</option>
-                        <option value="W">Viudo(a)</option>
-                        <option value="L">Separado(a)</option>
-                    </select> 
-                </div>
-                <br>
                 <div>
                     Contraseña: <input type="password" name="password" id="password" placeholder="Contraseña" title="Min. 3" required=""/>
                 </div>
             </fieldset>
             <fieldset>
-                <legend>Datos de Contacto</legend>
+                <legend>Datos de Rol</legend>
                 <br>
-                <!--Teléfonos-->
-                <div >
-                    Tel.Casa <input type="text" id="telhome"  placeholder="Ej. 8700000" name="telhome" pattern="[0-9]+" title="Sólo números">                                        
+                <!--Role-->
+                <div>
+                    Profesión: <select name="role" id="role">
+                        <option value="61894003">Médico(a) Endocrinólogo(a)</option>
+                        <option value="59058001">Médico(a) General</option>
+                        <option value="398130009">Estudiante de Medicina</option>
+                        <option value="309446002">Enfermero(a) Jefe</option>
+                        <option value="310182000">Enfermero(a)</option>
+                    </select> 
                 </div>
                 <br>
+                <!--Teléfonos-->
                 <div>
                     Tel.Móvil <input type="text" id="telmobile" placeholder="Ej. 3201234567" name="telmobile" pattern="[0-9]+" title="Sólo números" required="">                                        
                 </div>
@@ -91,7 +82,7 @@
                 <br>
                 <!--Dirección-->
                 <div>
-                    Dirección <input type="text" id="line" placeholder="calle 1 # 2-3" name="line">
+                    Dirección Oficina <input type="text" id="line" placeholder="calle 1 # 2-3" name="line">
                     <select name="city" id="city">
                             <option value="Neiva">Neiva</option>
                             <option value="Aipe">Aipe</option>
@@ -99,35 +90,10 @@
                     </select>
                 </div>
                 <br>
-                <!--Contacto-->
                 <div>
-                    <h3>Contactar a:</h3>                    
-                    <div>
-                    Nombre(s) <input type="text" name="givenc" id="givenc" placeholder="Alejandro" pattern="[A-Za-z]+" title="Sólo Letras" required=""/>
-                    </div>
-                    <br>
-                    <div>
-                        Apellido(s) <input type="text" name="familyc" id="familyc" placeholder="Mora Gómez" pattern="[A-Za-z]+" title="Sólo Letras" required=""/>
-                    </div> 
-                    <br> 
-                    <div>
-                        Teléfono:<input type="text" id="telc" placeholder="Ej. 8700000" name="telc" pattern="[0-9]+" title="Sólo números">
-                    </div>
-                    <br>
-                    <select name="relationship" id="relationship">
-                            <option value="family">Familiar</option>
-                            <option value="partner">Pareja</option>
-                            <option value="friend">Amigo</option>
-                    </select>
+                    EPS/IPS/Centro de Salud<input type="text" name="managingOrganization" id="managingOrganization" placeholder="CafeSalud" pattern="[A-Za-z]+" title="Sólo Letras" required=""/>
                 </div>
                 <br>               
-            </fieldset>
-            <fieldset>
-                <legend>EPS/IPS/Centro de Salud</legend>                
-                <br>
-                <div>
-                    <input type="text" name="managingOrganization" id="managingOrganization" placeholder="CafeSalud" pattern="[A-Za-z]+" title="Sólo Letras" required=""/>
-                </div>
             </fieldset>
                 <div>                    
                     <ul class="actions">

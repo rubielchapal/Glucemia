@@ -16,7 +16,7 @@
         <header id="header"> 
             <h1>Datos :D</h1>
         </header>
-        <form action="Register" method="post">
+        <form action="RegisterPacient" method="post">
             <fieldset>
                 <legend>Datos Personales</legend>
                 <!--Nombres-->
