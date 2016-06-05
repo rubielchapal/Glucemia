@@ -2,7 +2,9 @@ GlucUP-2Date
 ===================
 
 
-HThis first commit has all the information for create the connection between DB and Server, DB contains all data for register pacient using [FHIR](https://www.hl7.org/fhir), standard based on **HL7**
+Commit#7
+
+Full DB and full clases and servlet for create the connection between DB and Server, DB contains all data for register pacient and personal and add observation glucose using [FHIR](https://www.hl7.org/fhir), standard based on **HL7**
 
 ----------
 
@@ -10,7 +12,7 @@ HThis first commit has all the information for create the connection between DB 
 Documents
 -------------
 
-#### 1. FHIR folder has all project  developed using Servlet and MySQL. This first version is only for register a pacient
+#### 1. FHIR folder has all project  developed using Servlet and MySQL. Version for register a pacient/personal, adding observation glucose and list observation
 
 #### 2.  *fhir.mwb* is the DB Schema
 
