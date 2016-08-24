@@ -1,10 +1,9 @@
 GlucUP-2Date
 ===================
 
+New Features !!
 
-Commit#7
-
-Full DB and full clases and servlet for create the connection between DB and Server, DB contains all data for register pacient and personal and add observation glucose using [FHIR](https://www.hl7.org/fhir), standard based on **HL7**
+- Added new class for send and recieve push notification via AndroidApp using FireBase Cloud Messaging
 
 ----------
 

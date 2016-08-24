@@ -14,9 +14,18 @@ import com.google.gson.JsonElement;
 public class ListGluc {
     private String subject;
     private String performer;
-    private String valueQuantity;
-    private String interpretation;
+    private String value;
+    private String code;
     private String issued;
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     
     public String getSubject() {
@@ -36,19 +45,19 @@ public class ListGluc {
     }
 
     public String getValueQuantity() {
-        return valueQuantity;
+        return value;
     }
 
-    public void setValueQuantity(String valueQuantity) {
-        this.valueQuantity = valueQuantity;
+    public void setValueQuantity(String value) {
+        this.value = value;
     }
 
-    public String getInterpretation() {
-        return interpretation;
+    public String getCode() {
+        return code;
     }
 
-    public void setInterpretation(String interpretation) {
-        this.interpretation = interpretation;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getIssued() {

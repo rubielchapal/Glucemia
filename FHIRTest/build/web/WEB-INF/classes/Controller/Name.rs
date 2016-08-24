@@ -1,4 +1,0 @@
-Controller.DataFamily
-Controller.DataGiven
-Controller.Name
-Controller.DataName

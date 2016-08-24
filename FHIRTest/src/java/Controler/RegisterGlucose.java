@@ -42,6 +42,7 @@ public class RegisterGlucose extends HttpServlet {
         String date = request.getParameter("date"); 
         String personal =  request.getParameter("personal");
         String data =  request.getParameter("data");
+        String state = request.getParameter("state");
         double vValue = Double.parseDouble(data);
         DAO d = new DAO();
         Gson gson = new Gson();
@@ -79,7 +80,6 @@ public class RegisterGlucose extends HttpServlet {
                 JsonElement subject = gson.toJsonTree(SUBJECT);
                 //Performer
                 JsonElement performer;
-                String asd = "na";
                 if(!personal.isEmpty()){
                     Performer = d.getName(personal, "personal");
                     Performer PERFORMER = new Performer();
@@ -90,7 +90,6 @@ public class RegisterGlucose extends HttpServlet {
                     performer = gson.toJsonTree(PERFORMER);
                 }else{
                     performer = gson.toJsonTree("null");
-                    asd = performer.getAsString();
                 }              
                 //Value
                 Value VALUE = new Value();
@@ -149,7 +148,7 @@ public class RegisterGlucose extends HttpServlet {
                 INTER.setDataInter(dataInter);                
                 JsonElement interpretation = gson.toJsonTree(INTER);                                
                 
-                d.registerGlucose(identifier, code, subject, date, performer, value, interpretation, referenceRange);
+                d.registerGlucose(identifier, code, subject, date, performer, value, interpretation, state, referenceRange);
                 jsonObject.addProperty("glucose", true);
                 
                 /*if(asd.equalsIgnoreCase("hola")){                
@@ -167,6 +166,7 @@ public class RegisterGlucose extends HttpServlet {
                 jsonObject.addProperty("glucose", false);
             }                                        
             response.getWriter().write(jsonObject.toString());
+            d.desconectar();
         }  catch (SQLException  | IOException ex) {
             jsonObject.addProperty("error", ex.toString());            
             response.getWriter().write(jsonObject.toString());

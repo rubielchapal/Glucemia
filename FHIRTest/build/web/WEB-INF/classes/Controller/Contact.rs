@@ -1,9 +1,0 @@
-Controller.DataRelationship
-Controller.DataContact
-Controller.Relationship
-Controller.Contact
-Controller.TelecomContact
-Controller.NameContact
-Controller.DataNameContact
-Controller.DataTelecomContact
-Controller.DataCodingContact
