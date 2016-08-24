@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Controller.PacientActivity">
+    <!-- Here you put the rest of your current view-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/set_alarm_layout">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="HH:MM"
+                android:id="@+id/fab_alarm"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="false"
+                android:background="@drawable/button_default_bg"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_alignParentStart="true" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_add_alarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                app:elevation="6dp"
+                app:pressedTranslationZ="12dp"
+                android:src="@drawable/add_ic"
+                android:visibility="visible"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/fab_alarm"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="12dp">
+
+                <ToggleButton
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/mon_tb"
+                    android:textOff="MON"
+                    android:textOn="MON"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    style="@style/DayOfWeek"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp" />
+
+                <ToggleButton
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/tue_tb"
+                    android:textOff="TUE"
+                    android:textOn="TUE"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    style="@style/DayOfWeek"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp" />
+
+                <ToggleButton
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/wed_tb"
+                    android:textOff="WED"
+                    android:textOn="WED"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    style="@style/DayOfWeek"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp" />
+
+                <ToggleButton
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/thu_tb"
+                    android:textOff="THU"
+                    android:textOn="THU"
+                    android:layout_row="0"
+                    android:layout_column="3"
+                    style="@style/DayOfWeek"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp" />
+
+                <ToggleButton
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/fri_tb"
+                    android:textOff="FRI"
+                    android:textOn="TUE"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    style="@style/DayOfWeek"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp" />
+
+                <ToggleButton
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/sat_tb"
+                    android:textOff="SAT"
+                    android:textOn="SAT"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    style="@style/DayOfWeek"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp" />
+
+                <ToggleButton
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/sun_tb"
+                    android:textOff="SUN"
+                    android:textOn="SUN"
+                    android:layout_row="1"
+                    android:layout_column="2"
+                    style="@style/DayOfWeek"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp" />
+
+            </GridLayout>
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/recycler_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp"
+            android:scrollbars="vertical"
+            android:layout_marginTop="15dp" />
+
+    </LinearLayout>
+
+</ScrollView>
+
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".Controller.PacientActivity">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/fab_alarm"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/recycler_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp"
+            android:scrollbars="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/fab_alarm"
+            android:layout_marginTop="5dp" />
+
+        &lt;!&ndash;<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set alarm"
+            android:id="@+id/start_alarm"
+            android:onClick="startTimer"
+            android:layout_below="@+id/alarmText"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unset alarm"
+            android:id="@+id/stop_alarm"
+
+            android:onClick="cancelTimer"
+            android:layout_below="@+id/start_alarm"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Set the alarm clock!"
+            android:id="@+id/alarmText"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="77dp" />&ndash;&gt;
+
+
+    </RelativeLayout>-->
