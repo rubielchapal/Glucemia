@@ -20,6 +20,26 @@
         <servlet-name>ListGlucose</servlet-name>
         <servlet-class>Controler.ListGlucose</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DateFilterGlucose</servlet-name>
+        <servlet-class>Controler.DateFilterGlucose</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ValueFilterGlucose</servlet-name>
+        <servlet-class>Controler.ValueFilterGlucose</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PacientListServlet</servlet-name>
+        <servlet-class>Controler.PacientListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DetailPacientServlet</servlet-name>
+        <servlet-class>Controler.DetailPacientServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FCM_Server</servlet-name>
+        <servlet-class>Controler.FCM_Server</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterPacient</servlet-name>
         <url-pattern>/RegisterPacient</url-pattern>
@@ -39,6 +59,26 @@
     <servlet-mapping>
         <servlet-name>ListGlucose</servlet-name>
         <url-pattern>/ListGlucose</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DateFilterGlucose</servlet-name>
+        <url-pattern>/DateFilterGlucose</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ValueFilterGlucose</servlet-name>
+        <url-pattern>/ValueFilterGlucose</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PacientListServlet</servlet-name>
+        <url-pattern>/PacientListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetailPacientServlet</servlet-name>
+        <url-pattern>/DetailPacientServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FCM_Server</servlet-name>
+        <url-pattern>/FCM_Server</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

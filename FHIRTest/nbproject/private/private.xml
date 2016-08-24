@@ -3,13 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/FHIRTest/web/paciente.jsp</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/FHIRTest/src/java/Controller/Marital.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/FHIRTest/src/java/Models/DAO.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/FHIRTest/src/java/Controller/RegisterPersonal.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/FHIRTest/web/personal.jsp</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/FHIRTest/src/java/Controller/Rol.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/FHIRTest/src/java/Controller/RegisterPacient.java</file>
+            <file>file:/C:/Users/Dell/Documents/GitHub/Glucemia/FHIRTest/src/java/Controler/FCM_Server.java</file>
+            <file>file:/C:/Users/Dell/Documents/GitHub/Glucemia/FHIRTest/src/java/Controler/DateFilterGlucose.java</file>
         </group>
     </open-files>
 </project-private>

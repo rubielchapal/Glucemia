@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Dell
+ * @author alejo
  */
-public class ListGlucose extends HttpServlet {
+public class ValueFilterGlucose extends HttpServlet {
 
     
     @Override
@@ -42,7 +41,14 @@ public class ListGlucose extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         //Datos Android        
-        String ndivalue = request.getParameter("ndivalue");
+        String ndivalue = request.getParameter("user");
+        String fixvalue = request.getParameter("fixvalue");
+        String minvalue = request.getParameter("minvalue");
+        String maxvalue = request.getParameter("maxvalue");
+        String params[] = new String[3];
+        params[0] = fixvalue;
+        params[1] = minvalue;
+        params[2] = maxvalue;
         DAO dao = new DAO();
         Gson gson = new Gson();
         JsonObject jsonObject =  new JsonObject();
@@ -51,13 +57,13 @@ public class ListGlucose extends HttpServlet {
             //List<Device> products = dao.findDevice(params);
             JsonArray arrayObj = new JsonArray();
             if(dao.isPatient(ndivalue)){
-                List<ListGluc> items = dao.listGlucose(ndivalue);
+                List<ListGluc> items = dao.ValueFilterGlucose(ndivalue, params);
                 items.stream().map((mensajes) -> gson.toJsonTree(mensajes)).forEach((mensajesObj) -> {
                 arrayObj.add(mensajesObj);
                 });
-                int status = 0;
+                boolean status = true;
                 if(items.isEmpty()){
-                    status = 1;                
+                    status = false;                
                 }         
                 jsonObject.addProperty("status", status);                
                 jsonObject.add("obs_glucose", arrayObj);
@@ -83,7 +89,5 @@ public class ListGlucose extends HttpServlet {
             Logger.getLogger(ListGlucose.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     
-
 }
