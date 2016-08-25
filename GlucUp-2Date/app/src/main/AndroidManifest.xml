@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="magnusdroid.com.glucup_2date">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Controller.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Controller.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Controller.PacientActivity"
+            android:label="@string/title_activity_pacient"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Controller.StartActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_start"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".Controller.AddGlucActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.UserDialog" />
+        <activity
+            android:name=".Controller.FilterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.UserDialog" />
+        <activity
+            android:name=".Controller.ListGlucoseActivity"
+            android:label="@string/title_activity_date_glucose"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Controller.WeekFilterGlucose"
+            android:label="@string/title_activity_week_filter_glucose"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Controller.PersonalActivity"
+            android:label="@string/title_pacient_list"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Controller.PacientDetailActivity"
+            android:label="@string/title_pacient_detail"
+            android:parentActivityName=".Controller.PersonalActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controller.PersonalActivity" />
+        </activity>
+
+        <receiver android:name=".Controller.AlarmReceiver" />
+
+        <service
+            android:name=".Controller.RingtonePlayingService"
+            android:enabled="true"></service>
+
+        <activity
+            android:name=".Controller.SetAlarmActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.UserDialog" />
+        <!-- [START firebase_service] -->
+        <service
+            android:name=".Controller.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [END firebase_service] -->
+        <!-- [START firebase_iid_service] -->
+        <service
+            android:name=".Controller.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [END firebase_iid_service] -->
+    </application>
+
+</manifest>

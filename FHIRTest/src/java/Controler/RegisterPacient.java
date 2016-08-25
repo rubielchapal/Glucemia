@@ -81,7 +81,6 @@ public class RegisterPacient extends HttpServlet {
             dataIdentifier.setSystem("urn:oid:2.16.840.1.113883.2.17.6.3");
             dataIdentifier.setValue(ndivalue);
             dataIdentifier.setDisplay(ndi);
-            dataIdentifier.setPassword(password);
             ID.setDataIdentifier(new DataIdentifier[] { dataIdentifier });            
             JsonElement identifier = gson.toJsonTree(ID);
             /*/Campo name
@@ -270,7 +269,7 @@ public class RegisterPacient extends HttpServlet {
                     "\n \n"+address.toString()+"\n \n"+maritalStatus.toString()+"\n \n"+contact.toString()+
                     "\n \n"+communication.toString());*/
             if(!d.isPatient(ndivalue)){
-                d.registerPacient(identifier, name, telecom, gender, birthDate, address, maritalStatus, contact, communication, managingOrganization);
+                d.registerPacient(identifier, password, name, telecom, gender, birthDate, address, maritalStatus, contact, communication, managingOrganization);
                 jsonObject.addProperty("register", true);
             /*respuesta.setAttribute("session", contact);
             respuesta.setAttribute("sessionName", name);
@@ -282,6 +281,7 @@ public class RegisterPacient extends HttpServlet {
                 jsonObject.addProperty("regiser", false);
             }            
             response.getWriter().write(jsonObject.toString());
+            d.desconectar();
         } catch (SQLException | IOException ex){
             jsonObject.addProperty("error", ex.toString());            
             response.getWriter().write(jsonObject.toString());

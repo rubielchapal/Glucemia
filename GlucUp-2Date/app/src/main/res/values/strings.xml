@@ -1,0 +1,105 @@
+<resources>
+    <string name="app_name">GlucUp-2Date</string>
+    <string name="next">SIGUIENTE</string>
+    <string name="skip">SALTAR</string>
+    <string name="start">LO TENGO!</string>
+
+    <string name="slide_1_title">GlucUp-2Date!</string>
+
+    <string name="slide_2_title"></string>
+    <string name="slide_2_desc">La mejor forma de llevar un control de tu diabetes</string>
+
+    <string name="slide_3_title"></string>
+    <string name="slide_3_desc">Realiza el siguimiento de tus muestras</string>
+
+    <string name="slide_4_title"></string>
+    <string name="slide_4_desc">Módulo para personal médico</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="title_activity_login">Inicio</string>
+
+    <string name="welcome_login">Bienvenido!</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Documento</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="prompt_ipserver">IP Servidor</string>
+    <string name="action_sign_in">Ingresar</string>
+    <string name="action_sign_in_short">Ingresar</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="field_empties">Todos los campos deben estar llenos</string>
+    <string name="user_no_found">Usuario no encontrado</string>
+    <string name="server_no_found">Sin respuesta del Servidor, verifica IP</string>
+
+    <string name="title_activity_pacient">Paciente</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_start">StartActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="nav_menu1">Muestras</string>
+    <string name="nav_menu2">Gráficas</string>
+    <string name="nav_menu3">Recordatorio</string>
+    <string name="nav_section">Utilidades</string>
+    <string name="nav_menu4">Ayuda</string>
+    <string name="nav_menu5">Acerca</string>
+    <string name="nav_menu6">Salir</string>
+    <string name="title_activity_gluc">GlucActivity</string>
+    <string name="prompt_value">Valor</string>
+    <string name="unidades">Unidades</string>
+    <string name="estado">Estado</string>
+    <string name="datetime">Fecha-Hora Actual</string>
+
+    <string-array name="Unidades">
+        <item>mmol/l</item>
+        <item>mg/dl</item>
+    </string-array>
+
+    <string-array name="Filtro">
+        <item>---</item>
+        <item>Dia</item>
+        <item>Semana</item>
+        <item>Valor</item>
+        <item>Todos</item>
+    </string-array>
+
+    <string-array name="Estado">
+        <item>Ayunas</item>
+        <item>Antes de Desayunar</item>
+        <item>Después de Desayunar</item>
+        <item>Antes de Almorzar</item>
+        <item>Después de Almorzar</item>
+        <item>Antes de Cenar</item>
+        <item>Después de Cenar</item>
+        <item>Antes de Dormir</item>
+        <item>Después de Dormir</item>
+    </string-array>
+    <string name="title_activity_filter">FilterActivity</string>
+    <string name="title_activity_date_glucose">DateGlucoseActivity</string>
+
+    <string name="radial_time_picker_value">%1$d:%2$d</string>
+    <string name="set_actual_time">%1$s:%2$s</string>
+    <string name="calendar_date_picker_value">%1$s-%2$s-%3$s</string>
+    <string name="calendar_week_picker_value">Semana del %1$s al %2$s</string>
+    <string name="last_issued">Registro más reciente: %1$s</string>
+    <string name="mostrar_datos">Mostrar Datos</string>
+    <string name="filtrar_por">Filtrar Por:</string>
+    <string name="title_activity_week_filter_glucose">Valores por Semana</string>
+    <string name="title_pacient_list">Pacientes</string>
+    <string name="title_pacient_detail">Detalles de: </string>
+    <string name="detailed">Nombre: %1$s \n\n Fecha de nacimiento: %2$s \n\n Edad: %3$s</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_set_alarm">SetAlarmActivity</string>
+
+</resources>

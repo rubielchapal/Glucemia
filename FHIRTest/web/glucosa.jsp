@@ -1,12 +1,6 @@
 <%-- 
     Document   : glucosa
     Created on : 5/06/2016, 01:42:02 PM
-    Author     : Dell
---%>
-
-<%-- 
-    Document   : paciente
-    Created on : 8/05/2016, 06:20:34 PM
     Author     : Alejo
 --%>
 
@@ -25,25 +19,42 @@
         <form action="RegisterGlucose" method="post">
             <fieldset>
                 <legend>Datos Personales</legend>
-                <!--Documento-->
+                <!--Paciente-->
                 <div>
                     Paciente<input type="text" name="pacient" id="pacient" placeholder="Documento" pattern="[0-9]+" title="Sólo Números" required=""/>
                 </div>
                 <br>
+                <!--Personal-->
                 <div>
                     Tomada por<input type="text" name="personal" id="personal" placeholder="Documento" pattern="[0-9]+" title="Sólo Números" />
                 </div>
                 <br>
-                <!--Genero-->
+                <!--Valor muestra-->
                 <div>
                     Valor:<input type="text" name="data" id="data" placeholder="Valor" required=""/><br>
                 </div> 
                 <br>                
-                <!--Fecha de Nacimiento-->               
+                <!--Fecha de Ingreso-->               
                 <div >
-                    Fecha<input type="date" id="date" name="date" style="color:#000000;background:rgba(144, 144, 144, 0.25)">
+                    Fecha<input type="datetime-local" id="date" name="date" style="color:#000000;background:rgba(144, 144, 144, 0.25)" value="YYYY-MM-DDThh:mm">
                 </div>
                 <br>                
+                <!--Estado-->               
+                <div >
+                    Fecha
+                    <select name="state" id="state">
+                        <option value="Antes de Desayunar">Antes de Desayunar</option>
+                        <option value="Despues de Desayunar">Despues de Desayunar</option>
+                        <option value="Antes de Almorzar">Antes de Almorzar</option>
+                        <option value="Despues de Almorzar">Despues de Almorzar</option>
+                        <option value="Antes de Cenar">Antes de Cenar</option>
+                        <option value="Despues de Cenar">Después de Cenar</option>
+                        <option value="Antes de Dormir">Antes de Dormir</option>
+                        <option value="Despues de Dormir">Después de Dormir</option>
+                        <option value="Ayunas">Ayunas</option>                        
+                    </select>
+                </div>
+                <br>
                 <div>                    
                     <ul class="actions">
                         <li><input type="submit" value="Enviar"/></li>

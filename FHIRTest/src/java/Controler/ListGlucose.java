@@ -12,8 +12,11 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -52,12 +55,14 @@ public class ListGlucose extends HttpServlet {
                 items.stream().map((mensajes) -> gson.toJsonTree(mensajes)).forEach((mensajesObj) -> {
                 arrayObj.add(mensajesObj);
                 });
-                boolean status = false;
-                if(!items.isEmpty()){
-                    status = true;                
+                int status = 0;
+                if(items.isEmpty()){
+                    status = 1;                
                 }         
                 jsonObject.addProperty("status", status);                
                 jsonObject.add("obs_glucose", arrayObj);
+            }else{            
+                jsonObject.addProperty("status", false);               
             }
             /*List<Device> items = dao.allDevice();
             items.stream().map((mensajes) -> gson.toJsonTree(mensajes)).forEach((mensajesObj) -> {
@@ -70,9 +75,12 @@ public class ListGlucose extends HttpServlet {
             jsonObject.addProperty("status", status);                
             jsonObject.add("device", arrayObj);*/
             response.getWriter().write(jsonObject.toString());
+            dao.desconectar();
         } catch (SQLException | ClassNotFoundException | IOException ex){
             jsonObject.addProperty("error", ex.toString());            
             response.getWriter().write(jsonObject.toString());
+        } catch (ParseException ex) {
+            Logger.getLogger(ListGlucose.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
