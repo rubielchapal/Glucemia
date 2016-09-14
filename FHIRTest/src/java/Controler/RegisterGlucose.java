@@ -132,7 +132,13 @@ public class RegisterGlucose extends HttpServlet {
                     dDisplay = "Normal";
                 }else if(c1 < 0){
                     cCode = "L";
-                    dDisplay = "Low";                    
+                    dDisplay = "Low"; 
+                    List<ListPersonal> items = d.getPersonal(pacient);
+                    String[] w = new String[items.size()];
+                    for(int i = 0; i < items.size(); i++){                        
+                        w[i] = d.getToken(items.get(i).getId(), "personal");
+                        Send(w[i], dDisplay, vValue, Performer);
+                    }                    
                 }else if(c2 > 0){
                     cCode = "H";
                     dDisplay = "High";                    
@@ -173,6 +179,58 @@ public class RegisterGlucose extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RegisterGlucose.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+	
+	private String Send(String string, String dDisplay, double vValue, String Performer) {
+        Gson gson = new Gson();
+        String value = String.valueOf(vValue*18);
+        String response = null;
+        try {
+            Field FIELD = new Field();
+            FIELD.setTo(string);
+            //FIELD.setTo("doiOzhpA-eQ:APA91bEN4yHZ5d1RnTpu6jD_yIhjzo2hBzdt_F7KbCwjiMTY5KqXy7TpXuzgJ9aAhe5Lk_h9kgeM1dW62ynYWtaHB6mStGzpJJC-i-nQ7kc8endB_px4s9XG5YhB5FE5Yw1WdDvaYdkj");
+            //FIELD.setTo("eaZUTgfQng8:APA91bGnlOEhg0RdDOAt6TNPyxArfxDhCcTVTNszYAMF8Ir7tFppoSz8yPLxa2Czffb2nIiL4MmwK0afLAbKAuWxCHvyIVDjaQm_AD2C6_-FrfHV1Xhu8uPWwxg6jBl1lYCbtcvIvSdP");
+            FIELD.setPriority("high"); 
+            Notification NOTIFICATION = new Notification();
+            NOTIFICATION.setBody("El paciente "+Performer+" ha ingresado un dato de: "+value+", revisalo !");
+            NOTIFICATION.setTitle("Alerta de Glucosa "+dDisplay);
+            NOTIFICATION.setSound("mysound");
+            FIELD.setNotification(NOTIFICATION);
+            DataField DATAFIELD = new DataField();
+            DATAFIELD.setMessage("hola");
+            FIELD.setData(DATAFIELD);
+            JsonElement name = gson.toJsonTree(FIELD);
+            //response.getWriter().write(name.toString());
+                HttpURLConnection httpcon = (HttpURLConnection) ((new URL(URL_FIREBASE).openConnection()));
+                httpcon.setDoOutput(true);
+                httpcon.setRequestProperty("Content-Type", "application/json");
+                //httpcon.setRequestProperty("Authorization", "key=AIzaSyDLYEuF7LsSj_g-nrwytWqlwNYzvPK7STE");
+                httpcon.setRequestProperty("Authorization", GOOGLE_SERVER_KEY);
+                httpcon.setRequestMethod("POST");
+                httpcon.connect();
+                System.out.println("Connected!");
+                //byte[] outputBytes = "{\"notification\":{\"title\": \"My title\", \"text\": \"My text\", \"sound\": \"default\"}, \"to\": \"cAhmJfN...bNau9z\"}".getBytes("UTF-8");
+                byte[] outputBytes = name.toString().getBytes("UTF-8");
+                OutputStream os = httpcon.getOutputStream();
+                os.write(outputBytes);
+                os.close();
+                // Reading response
+                InputStream input = httpcon.getInputStream();
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
+                for (String line; (line = reader.readLine()) != null;) {
+                    System.out.println(line);
+                    response = line;
+                    //response.getWriter().write(line);
+                    }
+                }          
+        } catch (MalformedURLException ex) { 
+            Logger.getLogger(FCM_Server.class.getName()).log(Level.SEVERE, null, ex);
+            response = ex.toString();
+        } catch (IOException ex) {
+            Logger.getLogger(FCM_Server.class.getName()).log(Level.SEVERE, null, ex);
+            response = ex.toString();
+        }
+        return response;
     }
 
 }
