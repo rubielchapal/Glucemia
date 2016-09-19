@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="magnusdroid.com.glucup_2date.Controller.FilterActivity"
+    tools:context="magnusdroid.com.glucup_2date.Controler.FilterActivity"
     android:background="@color/primary_light">
 
     <android.support.design.widget.AppBarLayout
@@ -56,14 +56,14 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dia"
+                android:text="@string/filter_day"
                 android:id="@+id/show_by_date"
                 android:layout_marginRight="10dp"
                 android:textColor="@color/secondary_text" />
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Semana"
+                android:text="@string/filter_week"
                 android:id="@+id/show_by_week"
                 android:layout_alignTop="@+id/radioGroup"
                 android:layout_marginRight="10dp"
@@ -71,14 +71,14 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Valor"
+                android:text="@string/value_gluc"
                 android:id="@+id/show_by_value"
                 android:layout_marginRight="10dp"
                 android:textColor="@color/secondary_text" />
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Todos"
+                android:text="@string/filter_all"
                 android:id="@+id/show_all"
                 android:layout_marginRight="10dp"
                 android:textColor="@color/secondary_text" />
@@ -97,7 +97,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ESCOGE EL DÍA"
+                android:text="@string/pick_day"
                 android:id="@+id/btn_week"
                 android:textStyle="bold"
                 android:background="@color/dot_dark_screen3"
@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Semana"
+                android:text="@string/filter_week"
                 android:id="@+id/week_set"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -160,7 +160,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ESCOGE EL DÍA"
+                android:text="@string/pick_day"
                 android:id="@+id/btn_date"
                 android:textStyle="bold"
                 android:background="@color/dot_dark_screen3"
@@ -199,7 +199,7 @@
                     android:id="@+id/unique_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Valor"
+                    android:hint="@string/filter_value"
                     android:inputType="number|numberDecimal"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -219,7 +219,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Valores entre: "
+                android:text="@string/value_filter"
                 android:id="@+id/range_value"
                 android:textStyle="bold"
                 android:textSize="18sp"
@@ -244,7 +244,7 @@
                 android:id="@+id/min_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Valor mínimo"
+                android:hint="@string/min_value"
                 android:inputType="number|numberDecimal"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -266,7 +266,7 @@
                     android:id="@+id/max_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Valor máximo"
+                    android:hint="@string/max_value"
                     android:inputType="number|numberDecimal"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -279,7 +279,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/mostrar_datos"
+            android:text="@string/show_result"
             android:id="@+id/btn_show"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"

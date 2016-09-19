@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="magnusdroid.com.glucup_2date.Controller.WeekFilterGlucose">
+    tools:context="magnusdroid.com.glucup_2date.Controler.WeekFilterGlucose">
 
     <TextView
         android:id="@+id/section_label"

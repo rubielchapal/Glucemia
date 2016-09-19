@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".Controller.PersonalActivity"
+    tools:context=".Controler.PersonalActivity"
     tools:listitem="@layout/pacient_list_content" />

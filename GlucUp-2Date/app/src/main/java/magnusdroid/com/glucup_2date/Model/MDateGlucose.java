@@ -1,11 +1,8 @@
 package magnusdroid.com.glucup_2date.Model;
 
-import android.content.Context;
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,31 +16,23 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import magnusdroid.com.glucup_2date.Controller.PrefManager;
-
 /**
- * Created by Dell on 13/06/2016.
+ * Model to connect Android App to the server. Use HtppURLConnection class to build the request and
+ * add the headers with the data.
+ * Get the response from the server and pass it to the controller
  */
 public class MDateGlucose {
-
-    private PrefManager prefManager;
-    private String ipServer;
     private JSONObject jsonObject;
 
-    public JSONObject getDay(String document, String date, Context context) throws JSONException{
+    public JSONObject getDay(String document, String date, String flag) throws JSONException{
 
-        prefManager = new PrefManager(context);
-
-        ipServer = prefManager.IpServer();
-        //String urlServer = "http://"+ipServer+":8084/FHIRTest/ListGlucose";
-        String urlServer = "http://"+ipServer+":8084/FHIRTest/DateFilterGlucose";
+        String urlServer = "http://186.113.30.230:8080/Glucemia/DateFilterGlucose";
         Map<String,Object> map = new LinkedHashMap<>();
 
         try {
             map.put("user",document);
             map.put("date",date);
-
-            Log.i("Datos",""+map);
+            map.put("flag",flag);
 
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String,Object> param : map.entrySet()) {
@@ -73,7 +62,6 @@ public class MDateGlucose {
             for (int c; (c = in.read()) >= 0;)
                 sb.append((char)c);
             String response = sb.toString();
-            Log.i("rta",""+response);
             jsonObject = new JSONObject(response);
 
         } catch (MalformedURLException e) {
@@ -81,7 +69,6 @@ public class MDateGlucose {
         } catch (SocketTimeoutException e){
             jsonObject = new JSONObject("{'status':3}");
         } catch (ConnectException e) {
-            // TODO Auto-generated catch block
             jsonObject = new JSONObject("{'status':3}");
             e.printStackTrace();
         } catch (IOException e) {

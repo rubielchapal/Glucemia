@@ -1,7 +1,8 @@
 package magnusdroid.com.glucup_2date.Model;
 
 /**
- * Created by Dell on 12/07/2016.
+ * Class to handle the JSON response from the server. Used to read the JSON array and get the data
+ * from every item of the list
  */
 public class ListGluc {
 

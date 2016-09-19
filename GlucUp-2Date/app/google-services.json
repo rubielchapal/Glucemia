@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "444769483402",
-    "firebase_url": "https://fir-cloud-messaging-a88f1.firebaseio.com",
-    "project_id": "fir-cloud-messaging-a88f1",
-    "storage_bucket": "fir-cloud-messaging-a88f1.appspot.com"
+    "project_number": "46295127480",
+    "firebase_url": "https://glucup2date.firebaseio.com",
+    "project_id": "glucup2date",
+    "storage_bucket": "glucup2date.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:444769483402:android:913cedca2d41209a",
+        "mobilesdk_app_id": "1:46295127480:android:85178142e8769b52",
         "android_client_info": {
-          "package_name": "magnusdroid.com.firebasecloudmessaging"
+          "package_name": "magnusdroid.com.glucup_2date"
         }
       },
       "oauth_client": [
         {
-          "client_id": "444769483402-hnsqur0e6gc86s42q9bbr0kgmei5i4g2.apps.googleusercontent.com",
+          "client_id": "46295127480-kmog8ji6mag9c90js89tev6jdbps580f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfkvSYzn1O02eZnJVbtqZpCxCTMub51PM"
+          "current_key": "AIzaSyBt07y8p8eRVnEl0iP4GlmaP1KZgMxtT60"
         }
       ],
       "services": {

@@ -1,6 +1,5 @@
 package magnusdroid.com.glucup_2date.Model;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -18,24 +17,20 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import magnusdroid.com.glucup_2date.Controller.PrefManager;
-
 /**
- * Created by Dell on 22/06/2016.
+ * Model to connect Android App to the server. Use HtppURLConnection class to build the request and
+ * add the headers with the data.
+ * Get the response from the server and pass it to the controller
  */
 public class MRegisterGlucose {
 
-    private PrefManager prefManager;
-    private String ipServer;
     private JSONObject jsonObject;
 
-    public JSONObject sendGluc(String document, String value, String state, String fecha, String personal, Context context) throws JSONException {
+    public JSONObject sendGluc(String document, String value, String state, String fecha, String personal) throws JSONException {
 
 
-        prefManager = new PrefManager(context);
-
-        ipServer = prefManager.IpServer();
-        String urlServer = "http://"+ipServer+":8084/FHIRTest/RegisterGlucose";
+        //String urlServer = "http://"+ipServer+":8084/FHIRTest/RegisterGlucose";
+        String urlServer = "http://186.113.30.230:8080/Glucemia/RegisterGlucose";
         Map<String,Object> map = new LinkedHashMap<>();
 
         try {
@@ -44,8 +39,6 @@ public class MRegisterGlucose {
             map.put("date",fecha);
             map.put("state",state);
             map.put("personal",personal);
-
-            Log.i("Datos",""+map);
 
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String,Object> param : map.entrySet()) {

@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Controller.PacientActivity">
+    tools:context=".Controler.PacientActivity">
     <!-- Here you put the rest of your current view-->
     <LinearLayout
         android:orientation="vertical"
