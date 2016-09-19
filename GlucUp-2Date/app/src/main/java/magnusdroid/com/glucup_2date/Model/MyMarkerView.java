@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
-//import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.Utils;
 
 import java.util.List;
@@ -17,7 +16,7 @@ import magnusdroid.com.glucup_2date.Model.ListGluc;
 import magnusdroid.com.glucup_2date.R;
 
 /**
- * Custom implementation of the MarkerView.
+ * Custom implementation of the MarkerView. See https://github.com/PhilJay/MPAndroidChart/wiki
  */
 public class MyMarkerView extends MarkerView {
 
