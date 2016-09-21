@@ -1,7 +1,7 @@
 package magnusdroid.com.glucup_2date.Model;
 
 /**
- * Created by Dell on 24/07/2016.
+ * Class deprecated
  */
 public class ListAlarm {
 

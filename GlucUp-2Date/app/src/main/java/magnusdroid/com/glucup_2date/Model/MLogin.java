@@ -1,6 +1,5 @@
 package magnusdroid.com.glucup_2date.Model;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -19,32 +18,27 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import magnusdroid.com.glucup_2date.Controller.PrefManager;
+import magnusdroid.com.glucup_2date.R;
 
 /**
- * Created by Dell on 12/06/2016.
+ * Model to connect Android App to the server. Use HtppURLConnection class to build the request and
+ * add the headers with the data.
+ * Get the response from the server and pass it to the controller
  */
 public class MLogin {
 
-
-    private PrefManager prefManager;
-    private String ipServer;
     private JSONObject jsonObject;
 
-    public JSONObject validateLogin(String document, String password, Context context) throws JSONException {
+    public JSONObject validateLogin(String document, String password) throws JSONException {
 
-
-        prefManager = new PrefManager(context);
-
-        ipServer = prefManager.IpServer();
-        String urlServer = "http://" + ipServer + ":8084/FHIRTest/LoginServlet";
+        //String urlServer = "http://" + ipServer + ":8084/FHIRTest/LoginServlet";
+        //String urlServer = R.string.ipserver +"LoginServlet";
+        String urlServer = "http://186.113.30.230:8080/Glucemia/LoginServlet";
         Map<String, Object> map = new LinkedHashMap<>();
 
         try {
             map.put("user", document);
             map.put("password", password);
-
-            Log.i("Datos", "" + map);
 
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : map.entrySet()) {
@@ -77,21 +71,18 @@ public class MLogin {
             Log.i("rta", "" + response);
             jsonObject = new JSONObject(response);
 
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | JSONException e) {
             e.printStackTrace();
         } catch (ConnectException e){
-            String error = "{\"status\":3}";
-            //jsonObject = new JSONObject("{'status':3}");
+            String error = "{'status':3}";
             jsonObject = new JSONObject(error);
             Log.d("No server", ""+jsonObject.toString());
         } catch (SocketTimeoutException e){
             //String error = "{\"status\":3\"}";
             jsonObject = new JSONObject("{'status':3}");
             //jsonObject = new JSONObject(error);
-            Log.d("No servero", ""+jsonObject.toString());
+            Log.d("No server", ""+jsonObject.toString());
         }catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         }
 

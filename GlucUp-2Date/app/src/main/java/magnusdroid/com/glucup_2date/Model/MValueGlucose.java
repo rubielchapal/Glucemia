@@ -20,40 +20,24 @@ import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import magnusdroid.com.glucup_2date.Controller.PrefManager;
-
 /**
- * Created by alejo on 16/07/2016.
+ * Model to connect Android App to the server. Use HtppURLConnection class to build the request and
+ * add the headers with the data.
+ * Get the response from the server and pass it to the controller
  */
 public class MValueGlucose {
 
-    private PrefManager prefManager;
-    private String ipServer, Fix, Min, Max;
+
+    private String Fix, Min, Max;
     private JSONObject jsonObject;
 
-    public JSONObject getValue(String document, String fix, String min, String max, String mUnit, Context context) throws JSONException {
+    public JSONObject getValue(String document, String fix, String min, String max, String mUnit) throws JSONException {
 
-        prefManager = new PrefManager(context);
 
-        /*
-        Double dataFix = Double.parseDouble(tFix);
-                    Double dataMin = Double.parseDouble(tMin);
-                    Double dataMax = Double.parseDouble(tMax);
-                    if(unit.equalsIgnoreCase("mg/dl")){
-                        DecimalFormat df = new DecimalFormat("#.##");
-                        df.setRoundingMode(RoundingMode.CEILING);
-                        tFix = String.valueOf(df.format(dataFix/18));
-                        tMin = String.valueOf(df.format(dataMin/18));
-                        tMax = String.valueOf(df.format(dataMax/18));
-                        //value = String.valueOf(df.format(data/18));
-                        //cancel = false;
-                    }
-         */
-
-        ipServer = prefManager.IpServer();
         //String urlServer = "http://"+ipServer+":8084/FHIRTest/ListGlucose";
         //String urlServer = "http://"+ipServer+":8084/FHIRTest/DateFilterGlucose";
-        String urlServer = "http://"+ipServer+":8084/FHIRTest/ValueFilterGlucose";
+        //String urlServer = "http://"+ipServer+":8084/FHIRTest/ValueFilterGlucose";
+        String urlServer = "http://186.113.30.230:8080/Glucemia/ValueFilterGlucose";
         Map<String,Object> map = new LinkedHashMap<>();
 
         if(mUnit.equalsIgnoreCase("mg/dl")){
@@ -105,8 +89,6 @@ public class MValueGlucose {
                 Min = "nn";
             }
         }
-
-
 
         try {
             map.put("user",document);

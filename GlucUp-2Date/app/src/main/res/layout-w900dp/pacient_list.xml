@@ -9,7 +9,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".Controller.PersonalActivity">
+    tools:context=".Controler.PersonalActivity">
 
     <!--
     This layout is a two-pane layout for the Pacients
@@ -26,7 +26,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".Controller.PersonalActivity"
+        tools:context=".Controler.PersonalActivity"
         tools:listitem="@layout/pacient_list_content" />
 
     <FrameLayout

@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/change_chart"
-        android:title="@string/action_settings"
+        android:title="@string/swipe"
         android:orderInCategory="30"
         android:icon="@drawable/ic_change"
         app:showAsAction="ifRoom" />

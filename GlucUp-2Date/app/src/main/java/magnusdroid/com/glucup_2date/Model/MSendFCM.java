@@ -1,6 +1,5 @@
 package magnusdroid.com.glucup_2date.Model;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -19,31 +18,25 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import magnusdroid.com.glucup_2date.Controller.PrefManager;
-
 /**
- * Created by Dell on 21/08/2016.
+ * Model to connect Android App to the server. Use HtppURLConnection class to build the request and
+ * add the headers with the data.
+ * Update the Token FCM to recieve/send push notifications
  */
 public class MSendFCM {
 
-    private PrefManager prefManager;
-    private String ipServer;
     private JSONObject jsonObject;
 
-    public JSONObject sendToken(String token, String flag, String activity, String document, Context context) throws JSONException {
+    public JSONObject sendToken(String token, String document) throws JSONException {
 
-        prefManager = new PrefManager(context);
-        ipServer = prefManager.IpServer();
-        String urlServer = "http://" + ipServer + ":8084/FHIR/FCM_Server";
+        //String urlServer = "http://" + ipServer + ":8084/FHIR/FCM_Server";
+        String urlServer = "http://186.113.30.230:8080/Glucemia/FCM_Server";
+        String error = "{'status':3}";
         Map<String, Object> map = new LinkedHashMap<>();
 
         try {
             map.put("token", token);
-            map.put("flag", flag);
-            map.put("activity", activity);
             map.put("document", document);
-
-            Log.i("Datos", "" + map);
 
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String, Object> param : map.entrySet()) {
@@ -76,21 +69,14 @@ public class MSendFCM {
             Log.i("rta", "" + response);
             jsonObject = new JSONObject(response);
 
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | JSONException e) {
             e.printStackTrace();
         } catch (ConnectException e){
-            String error = "{\"status\":3}";
-            //jsonObject = new JSONObject("{'status':3}");
             jsonObject = new JSONObject(error);
             Log.d("No server", ""+jsonObject.toString());
         } catch (SocketTimeoutException e){
-            //String error = "{\"status\":3\"}";
-            jsonObject = new JSONObject("{'status':3}");
-            //jsonObject = new JSONObject(error);
-            Log.d("No servero", ""+jsonObject.toString());
+            jsonObject = new JSONObject(error);
         }catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;

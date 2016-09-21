@@ -35,6 +35,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="magnusdroid.com.glucup_2date.Controller.PacientActivity"
+    tools:context="magnusdroid.com.glucup_2date.Controler.PacientActivity"
     tools:showIn="@layout/app_bar_pacient">
 </FrameLayout>

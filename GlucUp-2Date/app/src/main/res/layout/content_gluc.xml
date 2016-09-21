@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Controller.AddGlucActivity"
+    tools:context=".Controler.AddGlucActivity"
     tools:showIn="@layout/activity_gluc">
 
     <RelativeLayout android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:id="@+id/value_gluc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/prompt_value"
+            android:hint="@string/value_gluc"
             android:inputType="number|numberDecimal"
             android:maxLines="1"
             android:singleLine="true"
@@ -67,7 +67,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/estado"
+        android:text="@string/state"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/TextView2"
         android:textColor="@color/primary_text"

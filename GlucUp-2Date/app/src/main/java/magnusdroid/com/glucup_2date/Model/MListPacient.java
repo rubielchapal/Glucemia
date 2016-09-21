@@ -19,27 +19,18 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import magnusdroid.com.glucup_2date.Controller.PrefManager;
-
 /**
- * Created by Dell on 19/07/2016.
+ * Model to connect Android App to the server. Use HtppURLConnection class to build the request and
+ * add the headers with the data.
+ * Get the response from the server and pass it to the controller
  */
 public class MListPacient {
 
-    private PrefManager prefManager;
-    private String ipServer;
     private JSONObject jsonObject;
-    // Shared preferences file name
     private static final String DECODE = "UTF-8";
 
-    public JSONObject getList(String document, Context context) throws JSONException {
-
-        prefManager = new PrefManager(context);
-
-        ipServer = prefManager.IpServer();
-        //String urlServer = "http://"+ipServer+":8084/FHIRTest/ListGlucose";
-        //String urlServer = "http://"+ipServer+":8084/FHIRTest/DateFilterGlucose";
-        String urlServer = "http://"+ipServer+":8084/FHIRTest/PacientListServlet";
+    public JSONObject getList(String document) throws JSONException {
+        String urlServer = "http://186.113.30.230:8080/Glucemia/PacientListServlet";
         Map<String,Object> map = new LinkedHashMap<>();
 
         try {
@@ -74,10 +65,9 @@ public class MListPacient {
             for (int c; (c = in.read()) >= 0;)
                 sb.append((char)c);
             String response = sb.toString();
-            Log.i("rta",""+response);
             jsonObject = new JSONObject(response);
 
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | JSONException e) {
             e.printStackTrace();
         } catch (SocketTimeoutException e){
             jsonObject = new JSONObject("{'status':3}");
@@ -85,8 +75,6 @@ public class MListPacient {
             jsonObject = new JSONObject("{'status':3}");
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         }
 
