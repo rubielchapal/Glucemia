@@ -28,12 +28,15 @@ import magnusdroid.com.glucup_2date.R;
 public class MLogin {
 
     private JSONObject jsonObject;
+    private String response;
 
     public JSONObject validateLogin(String document, String password) throws JSONException {
 
+        jsonObject = new JSONObject();
+
         //String urlServer = "http://" + ipServer + ":8084/FHIRTest/LoginServlet";
         //String urlServer = R.string.ipserver +"LoginServlet";
-        String urlServer = "http://186.113.30.230:8080/Glucemia/LoginServlet";
+        String urlServer = "http://186.113.30.230:8080/Glucometrias/LoginServlet";
         Map<String, Object> map = new LinkedHashMap<>();
 
         try {
@@ -53,7 +56,7 @@ public class MLogin {
             URL url = new URL(urlServer);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(10000 /* milliseconds */);
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
             conn.setRequestMethod("POST");
@@ -61,28 +64,24 @@ public class MLogin {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            Log.w("url", "" + urlServer);
-
-            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
-            StringBuilder sb = new StringBuilder();
-            for (int c; (c = in.read()) >= 0; )
-                sb.append((char) c);
-            String response = sb.toString();
-            Log.i("rta", "" + response);
-            jsonObject = new JSONObject(response);
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                for (int c; (c = in.read()) >= 0; )
+                    sb.append((char) c);
+                response = sb.toString();
+                jsonObject = new JSONObject(response);
+            }else {
+                jsonObject.put("status",3);
+            }
 
         } catch (MalformedURLException | JSONException e) {
+            jsonObject.put("status",3);
             e.printStackTrace();
-        } catch (ConnectException e){
-            String error = "{'status':3}";
-            jsonObject = new JSONObject(error);
-            Log.d("No server", ""+jsonObject.toString());
-        } catch (SocketTimeoutException e){
-            //String error = "{\"status\":3\"}";
-            jsonObject = new JSONObject("{'status':3}");
-            //jsonObject = new JSONObject(error);
-            Log.d("No server", ""+jsonObject.toString());
-        }catch (IOException e) {
+        } catch (ConnectException | SocketTimeoutException e){
+            jsonObject.put("status",3);
+        } catch (IOException e) {
+            jsonObject.put("status",3);
             e.printStackTrace();
         }
 

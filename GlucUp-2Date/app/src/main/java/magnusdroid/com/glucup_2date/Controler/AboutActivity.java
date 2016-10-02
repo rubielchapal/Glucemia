@@ -51,7 +51,7 @@ public class AboutActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, PersonalActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, PacienteListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

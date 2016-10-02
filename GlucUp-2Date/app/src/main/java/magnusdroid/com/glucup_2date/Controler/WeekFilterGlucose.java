@@ -28,6 +28,7 @@ public class WeekFilterGlucose extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private String[] week;
     private int mFlag;
+    private String mPatient;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -41,6 +42,7 @@ public class WeekFilterGlucose extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         week = extras.getStringArray("week");
         mFlag = extras.getInt("flag");
+        mPatient= extras.getString("patient");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,13 +97,14 @@ public class WeekFilterGlucose extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putString("dayweek", tabtitles[position]);
             bundle.putInt("flag", mFlag);
+            bundle.putString("patient", mPatient);
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             Fragment fragment = new DayOfWeekFragment();
             fragment.setArguments(bundle);
             //return new DayOfWeekFragment();
             //return PlaceholderFragment.newInstance(position + 1);
-            return DayOfWeekFragment.newInstance(tabtitles[position], mFlag);
+            return DayOfWeekFragment.newInstance(tabtitles[position], mFlag, mPatient);
         }
 
         @Override

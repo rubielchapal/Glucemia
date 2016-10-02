@@ -25,10 +25,14 @@ import java.util.Map;
 public class MDetailPacient {
 
     private JSONObject jsonObject;
+    private String response;
 
     public JSONObject getDetail(String document, String date) throws JSONException {
 
-        String urlServer = "http://186.113.30.230:8080/Glucemia/DetailPacientServlet";
+        jsonObject = new JSONObject();
+
+
+        String urlServer = "http://186.113.30.230:8080/Glucometrias/DetailPacientServlet";
         Map<String,Object> map = new LinkedHashMap<>();
 
         try {
@@ -56,22 +60,24 @@ public class MDetailPacient {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            Log.w("url",""+urlServer);
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                for (int c; (c = in.read()) >= 0; )
+                    sb.append((char) c);
+                response = sb.toString();
+                jsonObject = new JSONObject(response);
+            }else {
+                jsonObject.put("status",3);
+            }
 
-            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
-            StringBuilder sb = new StringBuilder();
-            for (int c; (c = in.read()) >= 0;)
-                sb.append((char)c);
-            String response = sb.toString();
-            jsonObject = new JSONObject(response);
-
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | JSONException e) {
+            jsonObject.put("status",3);
             e.printStackTrace();
         } catch (SocketTimeoutException e){
-            jsonObject = new JSONObject("{'status':3}");
+            jsonObject.put("status",3);
         }catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            jsonObject.put("status",3);
             e.printStackTrace();
         }
 

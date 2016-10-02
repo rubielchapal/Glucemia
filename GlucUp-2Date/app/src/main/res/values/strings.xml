@@ -37,7 +37,7 @@
     <string name="calendar_week_picker_value">Week from %1$s to %2$s</string>
     <string name="radial_time_picker_value" translatable="false">%1$d:%2$d</string>
     <string name="set_actual_time" translatable="false">%1$s:%2$s</string>
-    <string name="calendar_date_picker_value" translatable="false">%1$s-%2$s-%3$s</string>
+    <string name="calendar_date_picker_value" translatable="false">%1$d-%2$s-%3$s</string>
     <string name="pick_day">Choose a day</string>
     <string name="value_filter">Values between:</string>
     <string name="min_value">Min Value</string>
@@ -103,12 +103,10 @@
     <string name="action_settings">Settings</string>
 
     <string name="title_activity_start" translatable="false">StartActivity</string>
-    <string name="title_activity_gluc" translatable="false">GlucActivity</string>
-
-    <string name="title_activity_filter" translatable="false">FilterActivity</string>
+    <string name="title_activity_gluc">New Record</string>
+    <string name="title_activity_filter">Search Records</string>
     <string name="title_activity_date_glucose" translatable="false">DateGlucoseActivity</string>
     <string name="title_activity_week_filter_glucose">Week Values</string>
-    <string name="title_pacient_list">Pacientes</string>
     <string name="title_activity_set_alarm" translatable="false">SetAlarmActivity</string>
     <string name="action_sign_in">Login</string>
     <string name="action_sign_in_short">Login</string>
@@ -134,4 +132,17 @@
     <string name="filter_record_not_found">Not record to filter entry</string>
     <string name="ipserver" translatable="false">http://186.113.30.230:8080/Glucemia/</string>
     <string name="back_filterweek">Back</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="search_pacient">Search Pacient</string>
+    <string name="nav_menu7">Website</string>
+    <string name="manual_activity">User Manual</string>
+    <string name="action_personal_web">Web Page</string>
+    <string name="title_pacient_list">Pacients:</string>
+    <string name="set_alarm">Set alarm:</string>
+    <string name="list_alarm">List alarm:</string>
+    <string name="title_paciente_list">Pacientes</string>
+    <string name="title_paciente_detail">Paciente Detail</string>
+    <string name="title_activity_search">Search pacient</string>
 </resources>

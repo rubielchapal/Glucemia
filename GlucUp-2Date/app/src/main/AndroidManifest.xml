@@ -38,10 +38,12 @@
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name=".Controler.AddGlucActivity"
+            android:label="@string/title_activity_gluc"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.UserDialog" />
         <activity
             android:name=".Controler.FilterActivity"
+            android:label="@string/title_activity_filter"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.UserDialog" />
         <activity
@@ -54,30 +56,24 @@
             android:label="@string/title_activity_week_filter_glucose"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".Controler.PersonalActivity"
-            android:label="@string/title_pacient_list"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".Controler.PacientDetailActivity"
-            android:label="@string/title_pacient_detail"
-            android:parentActivityName=".Controler.PersonalActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controler.PersonalActivity" />
-        </activity>
 
         <receiver android:name=".Controler.AlarmReceiver" />
 
         <service
-            android:name=".Controler.RingtonePlayingService"
+            android:name=".Controler.AlarmService"
             android:enabled="true" />
 
         <activity
             android:name=".Controler.SetAlarmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.UserDialog" />
+        <!-- [START firebase_service] -->
+        <service android:name=".Model.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- [END firebase_service] -->
         <!-- [START firebase_iid_service] -->
         <service android:name=".Model.MyFirebaseInstanceIDService">
             <intent-filter>
@@ -85,7 +81,30 @@
             </intent-filter>
         </service>
         <!-- [END firebase_iid_service] -->
-        <activity android:name=".Controler.AboutActivity"></activity>
+        <activity
+            android:name=".Controler.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Controler.ManualActivity"
+            android:label="@string/manual_activity" />
+        <activity
+            android:name=".Controler.PacienteListActivity"
+            android:label="@string/title_paciente_list"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Controler.PacienteDetailActivity"
+            android:label="@string/title_paciente_detail"
+            android:parentActivityName=".Controler.PacienteListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="magnusdroid.com.glucup_2date.Controler.PacienteListActivity" />
+        </activity>
+        <activity android:name=".Controler.HelpActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Controler.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/Theme.UserDialog" />
     </application>
 
 </manifest>

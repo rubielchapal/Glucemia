@@ -71,8 +71,8 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
     private DownloadValue downloadValue = null;
     // UI references.
     private FloatingActionButton mFab, mFab1, mFab2;
-    private RecyclerView recycler;
-    private RecyclerView.Adapter adapter;
+    private RecyclerView recycler, recycler1;
+    private RecyclerView.Adapter adapter, adapter1;
     private RelativeLayout rlayout;
     private ScrollView scrollView;
     private TextView txtv;
@@ -88,6 +88,7 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
     private int mInt, med, mFlag;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
     private String date;
+    private String mDoc;
     private String minvalue;
     private String maxvalue;
     private String fixvalue;
@@ -107,6 +108,7 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
     private JSONObject jObject;
     private JSONArray jArray;
     private List<ListGluc> glucList = new ArrayList<>();
+    private List<ListGluc> glucList1 = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +119,7 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
         // Set up bundle data.
         Bundle extras = getIntent().getExtras();
         date = extras.getString("date");
+        mDoc = extras.getString("patient");
         minvalue = extras.getString("Vmin");
         maxvalue = extras.getString("Vmax");
         fixvalue = extras.getString("Vfix");
@@ -243,7 +246,13 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
         RecyclerView.LayoutManager lManager = new LinearLayoutManager(getApplicationContext());
         recycler.setLayoutManager(lManager);
         recycler.setItemAnimator(new DefaultItemAnimator());
+        recycler1 = (RecyclerView) findViewById(R.id.date_recycler1);
+        recycler1.setHasFixedSize(true);
+        RecyclerView.LayoutManager lManager1 = new LinearLayoutManager(getApplicationContext());
+        recycler1.setLayoutManager(lManager1);
+        recycler1.setItemAnimator(new DefaultItemAnimator());
         med = 0;
+        unit = "mmol/l";
         Task(med);
     }
 
@@ -253,14 +262,21 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
      * This class is used to hide/show List or Chart and start specific AsyncTask
      */
     private void Task(int Mmed){
-        String document = prefManager.getDoc();
+        String document = null;
         if(mFlag == 0){
+            document = prefManager.getDoc();
             recycler.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
         }else if(mFlag == 1){
+            document = prefManager.getDoc();
             recycler.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
+        }else if(mFlag == 2){
+            recycler.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+            document = mDoc;
         }
+        Log.w("Doc"," "+document);
         if(date.equalsIgnoreCase("todos")){
             downloadAll = new DownloadAll(document, Mmed);
             downloadAll.execute();
@@ -286,13 +302,22 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
                 newGluc();
                 break;
             case R.id.fab_date_gluc2:
-                if(med ==0){
+                if (recycler.getVisibility() == View.VISIBLE) {
+                    recycler.setVisibility(View.GONE);
+                    recycler1.setVisibility(View.VISIBLE);
+                    unit = "mmol/l";
+                } else{
+                    recycler.setVisibility(View.VISIBLE);
+                    recycler1.setVisibility(View.GONE);
+                    unit = "mg/dl";
+                }
+                /*if(med ==0){
                     Task(med);
                     med = 1;
                 }else{
                     Task(med);
                     med = 0;
-                }
+                }*/
                 isFabOpen = true;
                 animateFAB();
                 break;
@@ -438,6 +463,7 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
         protected Boolean doInBackground(Void... params) {
             mDateGlucose = new MDateGlucose();
             glucList.clear();
+            glucList1.clear();
             yLineValues.clear();
             yBarValues.clear();
             xAxes.clear();
@@ -448,8 +474,11 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
                     mBoolean = true;
                     jArray = jObject.getJSONArray("obs_glucose");
                     for (int i = 0; i < jArray.length(); i++) {
+                        String mUnit1 = "mg/dl";
+                        String mUnit2 = "mmol/l";
+                        String value;
                         jObject = jArray.getJSONObject(i);
-                        ListGluc listGluc = new ListGluc();
+                        /*ListGluc listGluc = new ListGluc();
                         listGluc.setIssued(jObject.getString("issued"));
                         listGluc.setCode(jObject.getString("code"));
                         listGluc.setState(jObject.getString("state"));
@@ -469,8 +498,36 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
                             unit  = "mmol/l";
                         }
                         listGluc.setUnit(unit);
+                        listGluc.setValue(value);*/
+                        //ListGluc for mmol/l
+                        value = jObject.getString("value");
+                        ListGluc listGluc = new ListGluc();
+                        listGluc.setIssued(jObject.getString("issued"));
+                        listGluc.setCode(jObject.getString("code"));
+                        listGluc.setState(jObject.getString("state"));
+                        if(jObject.has("performer")){
+                            listGluc.setPerformer(jObject.getString("performer"));
+                        }else {
+                            listGluc.setPerformer(prefManager.getUser());
+                        }
+                        listGluc.setUnit(mUnit1);
                         listGluc.setValue(value);
+                        //ListGluc for mg/dl
+                        ListGluc listGluc1 = new ListGluc();
+                        listGluc1.setIssued(jObject.getString("issued"));
+                        listGluc1.setCode(jObject.getString("code"));
+                        listGluc1.setState(jObject.getString("state"));
+                        if(jObject.has("performer")){
+                            listGluc1.setPerformer(jObject.getString("performer"));
+                        }else {
+                            listGluc1.setPerformer(prefManager.getUser());
+                        }
+                        Double aDouble = Double.parseDouble(jObject.getString("value"));
+                        value = String.valueOf(df.format(aDouble*18));
+                        listGluc1.setUnit(mUnit2);
+                        listGluc1.setValue(value);
                         glucList.add(listGluc);
+                        glucList1.add(listGluc1);
                         yLineValues.add(new Entry(Float.parseFloat(value), i));
                         yBarValues.add(new BarEntry(Float.parseFloat(value), i));
                         xAxes.add(i, jObject.getString("issued"));
@@ -489,7 +546,9 @@ public class ListGlucoseActivity extends AppCompatActivity implements View.OnCli
                 downloadDate = null;
                 rlayout.setVisibility(View.GONE);
                 adapter = new RecyclerViewAdapter(glucList);
+                adapter1 = new RecyclerViewAdapter(glucList1);
                 recycler.setAdapter(adapter);
+                recycler1.setAdapter(adapter1);
                 mLineChart.animateXY(3000, 3000);
                 mBarChart.animateY(2500);
                 mCombiChart.animateXY(3000, 2500);

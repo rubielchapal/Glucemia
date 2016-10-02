@@ -1,6 +1,7 @@
 package magnusdroid.com.glucup_2date.Controler;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,8 +17,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -45,15 +48,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import magnusdroid.com.glucup_2date.Model.ListGluc;
 import magnusdroid.com.glucup_2date.Model.MDateGlucose;
-import magnusdroid.com.glucup_2date.Model.MRegisterGlucose;
 import magnusdroid.com.glucup_2date.Model.MyBarDataSet;
 import magnusdroid.com.glucup_2date.Model.MyMarkerView;
 import magnusdroid.com.glucup_2date.Model.PrefManager;
@@ -62,28 +63,26 @@ import magnusdroid.com.glucup_2date.R;
 
 /**
  * Fragment to show the Graphs for the records. Called in {@link PacientActivity} and {@link PacientDetailFragment}
- * Use open librarty <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a> to build the charts
+ * Use open library <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a> to build the charts
  */
 public class ChartFragment extends Fragment
-        implements OnChartGestureListener, OnChartValueSelectedListener, CalendarDatePickerDialogFragment.OnDateSetListener {
+        implements OnChartGestureListener, OnChartValueSelectedListener {
 
     //UI references
     private LineChart mLineChart;
     protected BarChart mBarChart;
     private CombinedChart mCombiChart;
     private DownloadDate downloadDate;
-    private Button btn_chartday, btn_chart, mShow;
+    private RelativeLayout nonvaluechart;
+    private TextView chart_text;
+    private ScrollView scroll_chart;
     private MenuItem change_chart;
-    // Model
-    private MDateGlucose mDateGlucose;
-    // JsonObject response from server
-    private JSONObject jObject;
-    private JSONArray jArray;
     // Utilities
     private List<ListGluc> glucList = new ArrayList<>();
     private ArrayList<Entry> yLineValues;
     private ArrayList<BarEntry> yBarValues;
     private ArrayList<String> xAxes;
+    private String lDate;
     String[] xaxes;
     XAxis xLineAxis, xBarAxis, xCombiAxis;
     YAxis leftBarAxis, leftLineAxis, leftCombiAxis;
@@ -91,9 +90,6 @@ public class ChartFragment extends Fragment
     private int med;
     private Boolean mBoolean;
     private String unit;
-    private int mYear, mMonth, mDay;
-    private int mInt;
-    private MyMarkerView mv;
 
     public ChartFragment() {
         // Required empty public constructor
@@ -110,6 +106,8 @@ public class ChartFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Allow change of orientation to see the chart in landscape or portrait
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
 
@@ -118,17 +116,11 @@ public class ChartFragment extends Fragment
         xAxes = new ArrayList<>();
         yLineValues = new ArrayList<>();
         yBarValues = new ArrayList<>();
-        // Get Current Datetime
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-        String monthConverted = converted(mMonth + 1);
-        String dayConverted = converted(mDay);
         //Set up widget references
-        btn_chartday = (Button) view.findViewById(R.id.btn_chartday);
-        btn_chart = (Button) view.findViewById(R.id.btn_chart);
-        mShow = (Button) view.findViewById(R.id.show_linebar);
+        nonvaluechart = (RelativeLayout) view.findViewById(R.id.nonvaluechart);
+        scroll_chart = (ScrollView) view.findViewById(R.id.scroll_chart);
+        chart_text = (TextView) view.findViewById(R.id.chart_text);
+        Button mShow = (Button) view.findViewById(R.id.show_linebar);
         mLineChart = (LineChart) view.findViewById(R.id.line_chart);
         mLineChart.setOnChartGestureListener(this);
         mLineChart.setOnChartValueSelectedListener(this);
@@ -212,24 +204,7 @@ public class ChartFragment extends Fragment
         YAxis rightCombiAxis = mCombiChart.getAxisRight();
         rightCombiAxis.setDrawGridLines(false);
         rightCombiAxis.setEnabled(false);
-        btn_chartday.setText(getString(R.string.calendar_date_picker_value, mYear, monthConverted, dayConverted));
-        btn_chartday.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btn_chart.setEnabled(true);
-                CalendarDatePickerDialogFragment cdp = new CalendarDatePickerDialogFragment()
-                        .setOnDateSetListener(ChartFragment.this);
-                cdp.show(getFragmentManager(), AddGlucActivity.FRAG_TAG_DATE_PICKER);
-            }
-        });
-        med = 0;
-        btn_chart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btn_chart.setEnabled(false);
-                Task(med);
-            }
-        });
+
         mShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,6 +212,9 @@ public class ChartFragment extends Fragment
                 mLineChart.setVisibility(View.VISIBLE);
             }
         });
+
+        med = 0;
+        Task(med);
 
         return view;
     }
@@ -277,8 +255,7 @@ public class ChartFragment extends Fragment
      */
     private void Task(int Mmed) {
         String document = prefManager.getDoc();
-        String date = btn_chartday.getText().toString();
-        downloadDate = new DownloadDate(document, date, Mmed);
+        downloadDate = new DownloadDate(document, Mmed);
         downloadDate.execute();
         med = 0;
     }
@@ -292,30 +269,32 @@ public class ChartFragment extends Fragment
     private class DownloadDate extends AsyncTask<Void, Void, Boolean> {
 
         private final String mDoc;
-        private final String mDate;
         private final int mMed;
 
-        DownloadDate(String doc, String date, int med) {
+        DownloadDate(String doc, int med) {
             mDoc = doc;
-            mDate = date;
             mMed = med;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            mDateGlucose = new MDateGlucose();
+            MDateGlucose mDateGlucose = new MDateGlucose();
             DecimalFormat df = new DecimalFormat("#.##");
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String mDate = sdf.format(c.getTime());
             glucList.clear();
             yLineValues.clear();
             yBarValues.clear();
             xAxes.clear();
             try {
                 //Handle response
-                jObject = mDateGlucose.getDay(mDoc, mDate, "1");
-                mInt = jObject.getInt("status");
+                JSONObject jObject = mDateGlucose.getDay(mDoc, mDate, "0");
+                int mInt = jObject.getInt("status");
                 if (mInt == 1) {
                     mBoolean = true;
-                    jArray = jObject.getJSONArray("obs_glucose");
+                    JSONArray jArray = jObject.getJSONArray("obs_glucose");
+                    lDate = jObject.getString("date");
                     for (int i = 0; i < jArray.length(); i++) {
                         String value;
                         jObject = jArray.getJSONObject(i);
@@ -343,9 +322,7 @@ public class ChartFragment extends Fragment
                     for (int i = 0; i < xAxes.size(); i++) {
                         xaxes[i] = jObject.getString("issued");
                     }
-                } else if (mInt == 0) {
-                    mBoolean = false;
-                }
+                } else {mBoolean = false;}
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -356,6 +333,9 @@ public class ChartFragment extends Fragment
         @Override
         protected void onPostExecute(Boolean bb) {
             if (bb) {
+                nonvaluechart.setVisibility(View.GONE);
+                scroll_chart.setVisibility(View.VISIBLE);
+                chart_text.setText(getString(R.string.last_issued, lDate));
                 downloadDate = null;
                 change_chart.setEnabled(true);
                 mLineChart.animateXY(3000, 3000);
@@ -405,7 +385,7 @@ public class ChartFragment extends Fragment
                 combinedData.setData(db);
                 // create a custom MarkerView (extend MarkerView) and specify the layout
                 // to use for it
-                mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
+                MyMarkerView mv = new MyMarkerView(getContext(), R.layout.custom_marker_view);
                 // set the marker to the chart
                 mLineChart.setMarkerView(mv);
                 // create a data object with the datasets
@@ -418,8 +398,10 @@ public class ChartFragment extends Fragment
 
             } else {
                 // no description text
-                mLineChart.setDescription("");
-                mLineChart.setNoDataTextDescription("You need to provide data for the chart.");
+                nonvaluechart.setVisibility(View.VISIBLE);
+                scroll_chart.setVisibility(View.GONE);
+                /*mLineChart.setDescription("");
+                mLineChart.setNoDataTextDescription("You need to provide data for the chart.");*/
             }
         }
     }
@@ -457,20 +439,6 @@ public class ChartFragment extends Fragment
     @Override
     public void onNothingSelected() {
         Log.i("Nothing selected", "Nothing selected.");
-    }
-
-    /**
-     * See: {@link AddGlucActivity#onDateSet(CalendarDatePickerDialogFragment, int, int, int)}
-     * @param dialog
-     * @param year
-     * @param monthOfYear
-     * @param dayOfMonth
-     */
-    @Override
-    public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
-        String monthConverted = converted(monthOfYear + 1);
-        String dayConverted = converted(dayOfMonth);
-        btn_chartday.setText(getString(R.string.calendar_date_picker_value, year, monthConverted, dayConverted));
     }
 
     /**

@@ -3,6 +3,7 @@ package magnusdroid.com.glucup_2date.Controler;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class DayOfWeekFragment extends Fragment implements View.OnClickListener 
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String FLAG = "flag";
+    private static final String PATIENT = "patient";
     // UI references.
     private FloatingActionButton mFab, mFab1, mFab2;
     private RecyclerView recycler;
@@ -81,7 +83,7 @@ public class DayOfWeekFragment extends Fragment implements View.OnClickListener 
     private int mInt, mFlag;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
     private int med;
-    private String date, unit, value;
+    private String date, unit, value, mPatient;
     private XAxis xLineAxis, xBarAxis, xCombiAxis;
     private YAxis leftBarAxis, leftLineAxis, leftCombiAxis;
     private ArrayList<Entry> yLineValues;
@@ -106,13 +108,15 @@ public class DayOfWeekFragment extends Fragment implements View.OnClickListener 
      * Used to handle the data sended by {@link WeekFilterGlucose}
      * @param sectionNumber String day to show the title and the records of the day
      * @param mFlag int Flag to show List or Chart
+     * @param mPatient
      * @return UI according to the data
      */
-    public static DayOfWeekFragment newInstance(String sectionNumber, int mFlag) {
+    public static DayOfWeekFragment newInstance(String sectionNumber, int mFlag, String mPatient) {
         DayOfWeekFragment fragment = new DayOfWeekFragment();
         Bundle args = new Bundle();
         args.putString(ARG_SECTION_NUMBER, sectionNumber);
         args.putInt(FLAG, mFlag);
+        args.putString(PATIENT, mPatient);
         fragment.setArguments(args);
         return fragment;
     }
@@ -121,6 +125,8 @@ public class DayOfWeekFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Allow change of orientation to see the chart in landscape or portrait
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.week_day_filter, container, false);
         // Set up shared preferences.
@@ -130,6 +136,7 @@ public class DayOfWeekFragment extends Fragment implements View.OnClickListener 
         rlayout = (RelativeLayout) view.findViewById(R.id.nonweekday);
         date = getArguments().getString(ARG_SECTION_NUMBER);
         mFlag = getArguments().getInt(FLAG);
+        mPatient = getArguments().getString(PATIENT);
         xAxes = new ArrayList<>();
         yLineValues = new ArrayList<>();
         yBarValues = new ArrayList<>();
@@ -252,14 +259,20 @@ public class DayOfWeekFragment extends Fragment implements View.OnClickListener 
      */
     private void Task(int Mmed){
         progress.show();
+        String document = null;
         if(mFlag == 0){
+            document = prefManager.getDoc();
             recycler.setVisibility(View.VISIBLE);
             scrollView.setVisibility(View.GONE);
         }else if(mFlag == 1){
+            document = prefManager.getDoc();
             recycler.setVisibility(View.GONE);
             scrollView.setVisibility(View.VISIBLE);
+        }else if(mFlag == 2){
+            recycler.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+            document = mPatient;
         }
-        String document = prefManager.getDoc();
             downloadDate = new DownloadDate(document, date, Mmed);
             downloadDate.execute();
         med = 0;

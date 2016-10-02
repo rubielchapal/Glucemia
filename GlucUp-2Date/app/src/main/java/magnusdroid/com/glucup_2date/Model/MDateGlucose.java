@@ -1,6 +1,9 @@
 package magnusdroid.com.glucup_2date.Model;
 
 import android.util.Log;
+
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -13,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,10 +27,13 @@ import java.util.Map;
  */
 public class MDateGlucose {
     private JSONObject jsonObject;
+    private String response;
 
     public JSONObject getDay(String document, String date, String flag) throws JSONException{
 
-        String urlServer = "http://186.113.30.230:8080/Glucemia/DateFilterGlucose";
+        jsonObject = new JSONObject();
+
+        String urlServer = "http://186.113.30.230:8080/Glucometrias/DateFilterGlucose";
         Map<String,Object> map = new LinkedHashMap<>();
 
         try {
@@ -37,43 +44,43 @@ public class MDateGlucose {
             StringBuilder postData = new StringBuilder();
             for (Map.Entry<String,Object> param : map.entrySet()) {
                 if (postData.length() != 0) postData.append('&');
-                postData.append(URLEncoder.encode(param.getKey(), "ISO-8859-1"));
+                postData.append(URLEncoder.encode(param.getKey(), MAllGlucose.DECODE));
                 postData.append('=');
-                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "ISO-8859-1"));
+                postData.append(URLEncoder.encode(String.valueOf(param.getValue()), MAllGlucose.DECODE));
             }
-            byte[] postDataBytes = postData.toString().getBytes("ISO-8859-1");
+            byte[] postDataBytes = postData.toString().getBytes(MAllGlucose.DECODE);
 
 
             URL url = new URL(urlServer);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
-            conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setReadTimeout(15000 /* milliseconds */);
+            conn.setConnectTimeout(20000 /* milliseconds */);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+            conn.setRequestProperty("Accept-Charset", MAllGlucose.DECODE);
             conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            Log.w("url",""+urlServer);
-
-            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
-            StringBuilder sb = new StringBuilder();
-            for (int c; (c = in.read()) >= 0;)
-                sb.append((char)c);
-            String response = sb.toString();
-            jsonObject = new JSONObject(response);
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                for (int c; (c = in.read()) >= 0; )
+                    sb.append((char) c);
+                response = sb.toString();
+                jsonObject = new JSONObject(response);
+            }else {
+                jsonObject.put("status",3);
+            }
 
         } catch (MalformedURLException e) {
+            jsonObject.put("status",3);
             e.printStackTrace();
         } catch (SocketTimeoutException e){
-            jsonObject = new JSONObject("{'status':3}");
-        } catch (ConnectException e) {
-            jsonObject = new JSONObject("{'status':3}");
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            jsonObject.put("status",3);
+        } catch (JSONException | IOException e) {
+            jsonObject.put("status",3);
             e.printStackTrace();
         }
 

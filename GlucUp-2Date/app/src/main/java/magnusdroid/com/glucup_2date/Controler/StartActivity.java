@@ -25,7 +25,7 @@ import magnusdroid.com.glucup_2date.R;
 /**
  * An full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction. Show the {@link LoginActivity} if
- * not exist session opened, if exist show {@link PersonalActivity} or {@link PacientActivity} according
+ * not exist session opened, if exist show {@link PacienteListActivity} or {@link PacientActivity} according
  * to the shared preferences
  */
 public class StartActivity extends AppCompatActivity implements Animation.AnimationListener {
@@ -107,7 +107,7 @@ public class StartActivity extends AppCompatActivity implements Animation.Animat
                     i = new Intent(StartActivity.this, PacientActivity.class);
                     Toast.makeText(StartActivity.this, getString(R.string.welcome_login), Toast.LENGTH_SHORT).show();
                 } else if (prefManager.getRol().equalsIgnoreCase("personal")) {
-                    i = new Intent(StartActivity.this, PersonalActivity.class);
+                    i = new Intent(StartActivity.this, PacienteListActivity.class);
                     Toast.makeText(StartActivity.this, getString(R.string.welcome_login), Toast.LENGTH_SHORT).show();
                 }
                 startActivity(i);

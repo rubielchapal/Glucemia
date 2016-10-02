@@ -30,7 +30,7 @@ public class MSendFCM {
     public JSONObject sendToken(String token, String document) throws JSONException {
 
         //String urlServer = "http://" + ipServer + ":8084/FHIR/FCM_Server";
-        String urlServer = "http://186.113.30.230:8080/Glucemia/FCM_Server";
+        String urlServer = "http://186.113.30.230:8080/Glucometrias/FCM_Server";
         String error = "{'status':3}";
         Map<String, Object> map = new LinkedHashMap<>();
 

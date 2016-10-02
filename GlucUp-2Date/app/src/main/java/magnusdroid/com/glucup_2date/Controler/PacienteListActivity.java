@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,14 +13,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -32,51 +34,64 @@ import magnusdroid.com.glucup_2date.Model.Pacient;
 import magnusdroid.com.glucup_2date.Model.PrefManager;
 import magnusdroid.com.glucup_2date.Model.ViewDialog;
 import magnusdroid.com.glucup_2date.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An activity representing a list of Pacients. This activity
+ * An activity representing a list of Pacientes. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link PacientDetailActivity} representing
+ * lead to a {@link PacienteDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class PersonalActivity extends AppCompatActivity {
+public class PacienteListActivity extends AppCompatActivity {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
+    private View recyclerView;
+    private FrameLayout frameLayout, frameLayout1;
     // Keep track of the task to ensure we can cancel it if requested.
     private DownloadList mAuthTask = null;
     // Utilities
     private ProgressDialog progress;
-    private List<Pacient> glucList = new ArrayList<>();
-    private View recyclerView;
-    private RelativeLayout rLayout;
-    private TextView txtlayout;
-
+    private List<Pacient> pacientList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pacient_list);
+        setContentView(R.layout.activity_paciente_list);
         // Set up shared preferences.
-        PrefManager prefManager = new PrefManager(this);
+        final PrefManager prefManager = new PrefManager(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_personal);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(prefManager.getUser());
+        toolbar.setTitle(getTitle());
 
-        rLayout = (RelativeLayout) findViewById(R.id.nonpacient);
-        txtlayout = (TextView) findViewById(R.id.nonpacient_txt);
-        recyclerView = findViewById(R.id.pacient_list);
-        assert recyclerView != null;
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_personal);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), SearchActivity.class);
+                i.putExtra("flag", 0);
+                startActivity(i);
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+            }
+        });
 
-        if (findViewById(R.id.pacient_detail_container) != null) {
+        frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
+        frameLayout1 = (FrameLayout) findViewById(R.id.frameLayout1);
+
+        recyclerView = findViewById(R.id.paciente_list);
+        /*assert recyclerView != null;
+        setupRecyclerView((RecyclerView) recyclerView);*/
+
+        if (findViewById(R.id.paciente_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
@@ -84,13 +99,14 @@ public class PersonalActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        progress = new ProgressDialog(PersonalActivity.this);
+        progress = new ProgressDialog(PacienteListActivity.this);
         progress.setMessage(getString(R.string.fetching_data));
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
         progress.show();
         mAuthTask = new DownloadList(prefManager.getDoc());
         mAuthTask.execute();
+
     }
 
     @Override
@@ -112,42 +128,38 @@ public class PersonalActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
             startActivity(intent);
         }else if(id == R.id.action_personal_help){
-
+            Intent intent = new Intent(getApplicationContext(), HelpActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.action_personal_web){
+            Intent myWebLink = new Intent(Intent.ACTION_VIEW);
+            myWebLink.setData(Uri.parse("http://186.113.30.230:8080/Glucometrias"));
+            startActivity(myWebLink);
         }else if(id == R.id.action_personal_logout){
             ViewDialog alert = new ViewDialog();
-            alert.LogOutDialog(PersonalActivity.this, getApplicationContext());
-            return true;
+            alert.LogOutDialog(PacienteListActivity.this, getApplicationContext());
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     *
-     * @param recyclerView RecyclyView item to fetching data
-     * @param pacientList List of the all relationed  pacient with the personal logged
-     */
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, List<Pacient> pacientList) {
-        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getApplicationContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()));
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(pacientList));
     }
 
-    /**
-     * Adapter to setup the Recycler and show the List. See {@link RecyclerViewAdapter}
-     */
     public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>{
 
-        private List<Pacient> mValues;
+        private final List<Pacient> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<Pacient> pacientList) {
-            mValues = pacientList;
+        public SimpleItemRecyclerViewAdapter(List<Pacient> items) {
+            mValues = items;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.pacient_list_content, parent, false);
+                    .inflate(R.layout.paciente_list_content, parent, false);
             return new ViewHolder(view);
         }
 
@@ -156,24 +168,30 @@ public class PersonalActivity extends AppCompatActivity {
             holder.mItem = mValues.get(position);
             holder.mContentView.setText(mValues.get(position).subject);
             holder.mName = mValues.get(position).subject;
+            /*holder.mItem = mValues.get(position);
+            holder.mIdView.setText(mValues.get(position).id);
+            holder.mContentView.setText(mValues.get(position).content);*/
 
-            holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(PacientDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        arguments.putString(PacientDetailFragment.ARG_ITEM_NAME, holder.mName);
-                        PacientDetailFragment fragment = new PacientDetailFragment();
+                        arguments.putString(PacienteDetailFragment.PACIENT_ID, holder.mItem.id);
+                        arguments.putString(PacienteDetailFragment.PACIENT_NAME, holder.mName);
+                        //arguments.putString(PacienteDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        PacienteDetailFragment fragment = new PacienteDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.pacient_detail_container, fragment)
+                                .replace(R.id.paciente_detail_container, fragment)
                                 .commit();
                     } else {
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, PacientDetailActivity.class);
-                        intent.putExtra(PacientDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        intent.putExtra(PacientDetailFragment.ARG_ITEM_NAME, holder.mName);
+                        Intent intent = new Intent(context, PacienteDetailActivity.class);
+                        intent.putExtra(PacienteDetailFragment.PACIENT_ID, holder.mItem.id);
+                        intent.putExtra(PacienteDetailFragment.PACIENT_NAME, holder.mName);
+                        //intent.putExtra(PacienteDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+
                         context.startActivity(intent);
                     }
                 }
@@ -198,6 +216,11 @@ public class PersonalActivity extends AppCompatActivity {
                 mContentView = (TextView) view.findViewById(R.id.txt_name_pacient);
                 mImageView = (ImageView) view.findViewById(R.id.icon_pacient);
             }
+
+            @Override
+            public String toString() {
+                return super.toString() + " '" + mContentView.getText() + "'";
+            }
         }
     }
 
@@ -207,7 +230,7 @@ public class PersonalActivity extends AppCompatActivity {
      * Data send: <i>Stafff DNI</i>
      * Response: JSON with list of pacients
      */
-    private class DownloadList extends AsyncTask<Void, Void, Boolean> {
+    private class DownloadList extends AsyncTask<Object, Object, Integer> {
 
         private final String mDoc;
 
@@ -216,57 +239,51 @@ public class PersonalActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            glucList.clear();
+        protected Integer doInBackground(Object... params) {
+            pacientList.clear();
             MListPacient mList = new MListPacient();
-            int mInteger;
-            Boolean mBoolean = true;
+            int mInteger = 100;
             try {
                 JSONObject jObject = mList.getList(mDoc);
                 mInteger = jObject.getInt("status");
                 if(mInteger == 0){
-                    mBoolean = true;
                     JSONArray jArray = jObject.getJSONArray("pacient");
                     for (int i = 0; i < jArray.length(); i++) {
                         jObject = jArray.getJSONObject(i);
                         Pacient pacient = new Pacient(jObject.getString("id"), jObject.getString("subject"));
-                        glucList.add(pacient);
+                        pacientList.add(pacient);
                     }
-
-                }else if(mInteger == 1){
-                    mBoolean = false;
-                }else{
-                    mBoolean = false;
                 }
             } catch (JSONException e) {e.printStackTrace();}
-            return mBoolean;
+            return mInteger;
         }
 
         @Override
-        protected void onPostExecute(Boolean aVoid) {
+        protected void onPostExecute(Integer aVoid) {
             progress.dismiss();
-            if(aVoid) {
+            if(aVoid == 0 || aVoid == 1) {
                 mAuthTask = null;
-                setupRecyclerView((RecyclerView) recyclerView, glucList);
+                frameLayout.setVisibility(View.VISIBLE);
+                frameLayout1.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
-                rLayout.setVisibility(View.GONE);
-            }else{
+                setupRecyclerView((RecyclerView) recyclerView, pacientList);
+            }else {
                 recyclerView.setVisibility(View.GONE);
-                rLayout.setVisibility(View.VISIBLE);
-                txtlayout.setText(getString(R.string.login_issued_server));
+                frameLayout.setVisibility(View.GONE);
+                frameLayout1.setVisibility(View.VISIBLE);
+                //txtlayout.setText(getString(R.string.login_issued_server));
             }
         }
     }
-
 
     /**
      * Class to draw a divider item to the list of the Pacient. Inflate the layout and add params
      * using canvas class
      */
-    public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
+    public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         private Drawable mDivider;
 
-        public SimpleDividerItemDecoration(Context context) {
+        public DividerItemDecoration(Context context) {
             mDivider = ContextCompat.getDrawable(context,R.drawable.line_divider);
         }
 
@@ -286,6 +303,5 @@ public class PersonalActivity extends AppCompatActivity {
             }
         }
     }
-
 
 }

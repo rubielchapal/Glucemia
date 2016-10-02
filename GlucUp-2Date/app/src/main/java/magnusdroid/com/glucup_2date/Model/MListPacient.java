@@ -27,10 +27,11 @@ import java.util.Map;
 public class MListPacient {
 
     private JSONObject jsonObject;
+    private String response;
     private static final String DECODE = "UTF-8";
 
     public JSONObject getList(String document) throws JSONException {
-        String urlServer = "http://186.113.30.230:8080/Glucemia/PacientListServlet";
+        String urlServer = "http://186.113.30.230:8080/Glucometrias/PacientListServlet";
         Map<String,Object> map = new LinkedHashMap<>();
 
         try {
@@ -58,14 +59,16 @@ public class MListPacient {
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            Log.w("url",""+urlServer);
-
-            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
-            StringBuilder sb = new StringBuilder();
-            for (int c; (c = in.read()) >= 0;)
-                sb.append((char)c);
-            String response = sb.toString();
-            jsonObject = new JSONObject(response);
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                for (int c; (c = in.read()) >= 0; )
+                    sb.append((char) c);
+                response = sb.toString();
+                jsonObject = new JSONObject(response);
+            }else {
+                jsonObject.put("status",3);
+            }
 
         } catch (MalformedURLException | JSONException e) {
             e.printStackTrace();

@@ -48,6 +48,7 @@ public class FilterActivity extends AppCompatActivity
     String[] days;
     String plan, tDate, tWeek, tMin, tMax, tFix;
     private int mFlag;
+    private String mPatient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,11 @@ public class FilterActivity extends AppCompatActivity
             assert rbAll != null;
             rbAll.setVisibility(View.GONE);
             rbValue.setVisibility(View.GONE);
+        }else if (mFlag == 2){
+            assert rbAll != null;
+            rbAll.setVisibility(View.VISIBLE);
+            rbValue.setVisibility(View.VISIBLE);
+            mPatient = extras.getString("pacient");
         }
 
         rg = (RadioGroup) findViewById(R.id.radioGroup);
@@ -160,28 +166,35 @@ public class FilterActivity extends AppCompatActivity
                 tMax = txtMax.getText().toString();
                 tFix = txtFix.getText().toString();
                 if (!(tDate.isEmpty()) && tWeek.isEmpty() && tMin.isEmpty() && tMax.isEmpty() && tFix.isEmpty()){ //Show by Date
+                    Log.w("Flag"," "+mFlag);
                     i.putExtra("date", tDate);
                     i.putExtra("flag", mFlag);
+                    i.putExtra("patient", mPatient);
                     startActivity(i);
                     finish();
                 } else if (!(tWeek.isEmpty()) && tDate.isEmpty() && tMin.isEmpty() && tMax.isEmpty() && tFix.isEmpty()){ //Show by Week
                     Intent j = new Intent(FilterActivity.this, WeekFilterGlucose.class);
                     j.putExtra("week", days);
                     j.putExtra("flag", mFlag);
+                    j.putExtra("patient", mPatient);
                     Log.w("Tweek",""+ tWeek);
                     startActivity(j);
                     finish();
                 } else if ((!(tFix.isEmpty()) || !(tMin.isEmpty()) || !(tMax.isEmpty())) && tDate.isEmpty() && tWeek.isEmpty()){ //Show by Value
                     String unit = filter_unit_spinner.getSelectedItem().toString();
                     i.putExtra("date", "valor");
+                    i.putExtra("flag", mFlag);
                     i.putExtra("Vfix", tFix);
                     i.putExtra("Vmin", tMin);
                     i.putExtra("Vmax", tMax);
                     i.putExtra("Unit", unit);
+                    i.putExtra("patient", mPatient);
                     startActivity(i);
                     finish();
                 }else if (tDate.isEmpty() && tWeek.isEmpty() && tMin.isEmpty() && tMax.isEmpty()){ //Show All
                     i.putExtra("date", "todos");
+                    i.putExtra("flag", mFlag);
+                    i.putExtra("patient", mPatient);
                     startActivity(i);
                     finish();
                 }

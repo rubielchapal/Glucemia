@@ -296,7 +296,7 @@ public class LoginActivity extends AppCompatActivity {
                     prefManager.setPassword(mPassword);
                     prefManager.setDoc(mDoc);
                     prefManager.setRol("personal");
-                    intent = new Intent(LoginActivity.this, PersonalActivity.class);
+                    intent = new Intent(LoginActivity.this, PacienteListActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
                     Toast.makeText(LoginActivity.this, getString(R.string.welcome_login), Toast.LENGTH_SHORT).show();

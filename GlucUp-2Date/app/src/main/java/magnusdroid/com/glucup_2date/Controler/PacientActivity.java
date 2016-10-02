@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,7 +42,7 @@ public class PacientActivity extends AppCompatActivity
         // Set up shared preferences.
         prefManager = new PrefManager(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_patient);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -97,28 +98,6 @@ public class PacientActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.pacient, menu);
-        return false;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return false;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -134,11 +113,16 @@ public class PacientActivity extends AppCompatActivity
         } else if (id == R.id.nav_reminder) {
             fragmentClass = AlarmFragment.class;
         } else if (id == R.id.nav_help) {
-
+            fragmentClass = HelpFragment.class;
         } else if (id == R.id.nav_info) {
             t = 1;
             Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_web) {
+            t = 1;
+            Intent myWebLink = new Intent(Intent.ACTION_VIEW);
+            myWebLink.setData(Uri.parse("http://186.113.30.230:8080/Glucometrias"));
+            startActivity(myWebLink);
         } else if (id == R.id.nav_off) {
             fragmentClass = LogOutFragment.class;
         }

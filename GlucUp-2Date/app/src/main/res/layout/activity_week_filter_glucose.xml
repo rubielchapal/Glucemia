@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="magnusdroid.com.glucup_2date.Controler.WeekFilterGlucose">
+    tools:context="magnusdroid.com.glucup_2date.Controler.WeekFilterGlucose"
+    android:background="@color/primary_light">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

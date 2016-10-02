@@ -53,8 +53,8 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
     private DownloadList mAuthTask = null;
     // UI references.
     private FloatingActionButton mFab, mFab1, mFab2;
-    private RecyclerView recycler;
-    private RelativeLayout rLayout, lLayout;
+    private RecyclerView recycler, recycler1;
+    private RelativeLayout rLayout, relvalue;
     private TextView txtlayout, ldate_text;
     // Get shared preferences
     private PrefManager prefManager;
@@ -62,10 +62,9 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
     private ProgressDialog progress;
     private String lDate;
     private List<ListGluc> glucList = new ArrayList<>();
+    private List<ListGluc> glucList1 = new ArrayList<>();
     private Boolean isFabOpen = false;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
-    private int med;
-
 
     public PacientListFragment() {
         // Required empty public constructor
@@ -93,7 +92,7 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
         rotate_forward = AnimationUtils.loadAnimation(getContext(),R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getContext(),R.anim.rotate_backward);
         rLayout = (RelativeLayout) view.findViewById(R.id.nonvalue);
-        lLayout = (RelativeLayout) view.findViewById(R.id.relvalue);
+        relvalue = (RelativeLayout) view.findViewById(R.id.relvalue);
         txtlayout = (TextView) view.findViewById(R.id.nonvalue_text);
         ldate_text = (TextView) view.findViewById(R.id.ldate_text);
         mFab.setOnClickListener(this);
@@ -106,27 +105,29 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
         recycler.setLayoutManager(lManager);
         recycler.setItemAnimator(new DefaultItemAnimator());
 
+        recycler1 = (RecyclerView) view.findViewById(R.id.reciclador1);
+        recycler1.setHasFixedSize(true);
+        RecyclerView.LayoutManager lManager1 = new LinearLayoutManager(getContext());
+        recycler1.setLayoutManager(lManager1);
+        recycler1.setItemAnimator(new DefaultItemAnimator());
+
         progress = new ProgressDialog(getContext());
         progress.setMessage(getString(R.string.fetching_data));
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setCancelable(false);
         progress.setIndeterminate(true);
-
-        med = 0;
-        Task(med);
+        Task();
 
         return view;
     }
 
     /**
      * See: {@link ChartFragment#Task(int)}
-     * @param Mmed int Unit = mmol/l or mg/dl
      */
-    private void Task(int Mmed){
+    private void Task(){
         progress.show();
-        mAuthTask = new DownloadList(prefManager.getDoc(), Mmed);
+        mAuthTask = new DownloadList(prefManager.getDoc());
         mAuthTask.execute();
-        med = 0;
     }
 
     @Override
@@ -141,13 +142,20 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
                 newGluc();
                 break;
             case R.id.fab_pacient2:
-                if(med ==0){
+                if (recycler.getVisibility() == View.VISIBLE) {
+                    recycler.setVisibility(View.GONE);
+                    recycler1.setVisibility(View.VISIBLE);
+                } else{
+                    recycler.setVisibility(View.VISIBLE);
+                    recycler1.setVisibility(View.GONE);
+                }
+                /*if(med ==0){
                     Task(med);
                     med = 1;
                 }else{
                     Task(med);
                     med = 0;
-                }
+                }*/
                 isFabOpen = true;
                 animateFAB();
                 break;
@@ -209,20 +217,19 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
     private class DownloadList extends AsyncTask<Void, Void, Boolean>{
 
         private final String mDoc;
-        private final int mMed;
 
-        DownloadList(String doc, int med) {
+        DownloadList(String doc) {
             mDoc = doc;
-            mMed = med;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            Boolean aBoolean = true;
+            Boolean aBoolean;
             DecimalFormat df = new DecimalFormat("#.##");
             df.setRoundingMode(RoundingMode.CEILING);
             Calendar c = Calendar.getInstance();
             glucList.clear();
+            glucList1.clear();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String date = sdf.format(c.getTime());
             MDateGlucose mList = new MDateGlucose();
@@ -235,9 +242,10 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
                     JSONArray jArray = jObject.getJSONArray("obs_glucose");
                     lDate = jObject.getString("date");
                     for (int i = 0; i < jArray.length(); i++) {
-                        String value;
-                        String unit;
+                        String mUnit2 = "mg/dl";
+                        String mUnit1 = "mmol/l";
                         jObject = jArray.getJSONObject(i);
+                        //ListGluc for mmol/l
                         ListGluc listGluc = new ListGluc();
                         listGluc.setIssued(jObject.getString("issued"));
                         listGluc.setCode(jObject.getString("code"));
@@ -247,20 +255,35 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
                         }else {
                             listGluc.setPerformer(prefManager.getUser());
                         }
-                        if(mMed == 1){ //mmol/l -> mg/dl
+                        listGluc.setUnit(mUnit1);
+                        listGluc.setValue(jObject.getString("value"));
+                        //ListGluc for mg/dl
+                        ListGluc listGluc1 = new ListGluc();
+                        listGluc1.setIssued(jObject.getString("issued"));
+                        listGluc1.setCode(jObject.getString("code"));
+                        listGluc1.setState(jObject.getString("state"));
+                        if(jObject.has("performer")){
+                            listGluc1.setPerformer(jObject.getString("performer"));
+                        }else {
+                            listGluc1.setPerformer(prefManager.getUser());
+                        }
+                        Double aDouble = Double.parseDouble(jObject.getString("value"));
+                        String value = String.valueOf(df.format(aDouble*18));
+                        listGluc1.setUnit(mUnit2);
+                        listGluc1.setValue(value);
+                        /*if(mMed == 1){ //mmol/l -> mg/dl
                             Double aDouble = Double.parseDouble(jObject.getString("value"));
                             value = String.valueOf(df.format(aDouble*18));
                             unit = "mg/dl";
                         }else{
                             value = jObject.getString("value");
                             unit  = "mmol/l";
-                        }
-                        listGluc.setUnit(unit);
-                        listGluc.setValue(value);
+                        }*/
                         glucList.add(listGluc);
+                        glucList1.add(listGluc1);
                     }
                 }else{aBoolean = false;}
-            } catch (JSONException e) {e.printStackTrace();}
+            } catch (JSONException e) {e.printStackTrace();aBoolean = false;}
             return aBoolean;
         }
 
@@ -269,14 +292,19 @@ public class PacientListFragment extends Fragment implements View.OnClickListene
             progress.dismiss();
             if(aVoid) {
                 mAuthTask = null;
+                relvalue.setVisibility(View.VISIBLE);
                 RecyclerView.Adapter adapter = new RecyclerViewAdapter(glucList);
+                RecyclerView.Adapter adapter1 = new RecyclerViewAdapter(glucList1);
                 recycler.setAdapter(adapter);
                 recycler.setVisibility(View.VISIBLE);
-                lLayout.setVisibility(View.VISIBLE);
+                recycler1.setAdapter(adapter1);
+                recycler1.setVisibility(View.GONE);
                 ldate_text.setText(getString(R.string.last_issued, lDate));
                 rLayout.setVisibility(View.GONE);
             }else{
                 recycler.setVisibility(View.GONE);
+                recycler1.setVisibility(View.GONE);
+                relvalue.setVisibility(View.GONE);
                 rLayout.setVisibility(View.VISIBLE);
                 txtlayout.setText(getString(R.string.login_issued_server));
                 mFab.setClickable(false);

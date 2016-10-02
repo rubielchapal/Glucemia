@@ -28,7 +28,7 @@ import java.util.Map;
 public class MValueGlucose {
 
 
-    private String Fix, Min, Max;
+    private String Fix, Min, Max, response;
     private JSONObject jsonObject;
 
     public JSONObject getValue(String document, String fix, String min, String max, String mUnit) throws JSONException {
@@ -37,7 +37,7 @@ public class MValueGlucose {
         //String urlServer = "http://"+ipServer+":8084/FHIRTest/ListGlucose";
         //String urlServer = "http://"+ipServer+":8084/FHIRTest/DateFilterGlucose";
         //String urlServer = "http://"+ipServer+":8084/FHIRTest/ValueFilterGlucose";
-        String urlServer = "http://186.113.30.230:8080/Glucemia/ValueFilterGlucose";
+        String urlServer = "http://186.113.30.230:8080/Glucometrias/ValueFilterGlucose";
         Map<String,Object> map = new LinkedHashMap<>();
 
         if(mUnit.equalsIgnoreCase("mg/dl")){
@@ -109,32 +109,34 @@ public class MValueGlucose {
 
             URL url = new URL(urlServer);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000 /* milliseconds */);
+            conn.setReadTimeout(20000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+            conn.setRequestProperty("Accept-Charset", "UTF-8");
             conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.getOutputStream().write(postDataBytes);
 
-            Log.w("url",""+urlServer);
+            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+                StringBuilder sb = new StringBuilder();
+                for (int c; (c = in.read()) >= 0; )
+                    sb.append((char) c);
+                response = sb.toString();
+                jsonObject = new JSONObject(response);
+            }else {
+                jsonObject.put("status",3);
+            }
 
-            Reader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "ISO-8859-1"));
-            StringBuilder sb = new StringBuilder();
-            for (int c; (c = in.read()) >= 0;)
-                sb.append((char)c);
-            String response = sb.toString();
-            Log.i("rta",""+response);
-            jsonObject = new JSONObject(response);
-
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | JSONException e) {
+            jsonObject.put("status",3);
             e.printStackTrace();
         } catch (SocketTimeoutException e){
-            jsonObject = new JSONObject("{'status':3}");
+            jsonObject.put("status",3);
         }catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            jsonObject.put("status",3);
             e.printStackTrace();
         }
 

@@ -30,7 +30,7 @@ public class MyBarDataSet extends BarDataSet {
         int c3 = Double.compare(aDouble, mLowB);
         int c4 = Double.compare(aDouble, mHighB);*/
 
-        if(aDouble < 21){
+        if(aDouble < 18 ){
             int c1 = Double.compare(aDouble, mLowA);
             int c2 = Double.compare(aDouble, mHighA);
             if(c1 > 0 && c2 < 0){
@@ -46,7 +46,7 @@ public class MyBarDataSet extends BarDataSet {
                 return mColors.get(3);
             }
         }
-        else if(aDouble >  100){
+        else if(aDouble > 18 ){
             int c3 = Double.compare(aDouble, mLowB);
             int c4 = Double.compare(aDouble, mHighB);
             if(c3 > 0 && c4 < 0){
