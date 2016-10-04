@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_centerInParent="true"
+        android:id="@+id/weekday_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="3dp"
+        android:scrollbars="vertical"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/scroll_weekday"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.CombinedChart
+                android:id="@+id/combi_chart_weekday"
+                android:layout_width="match_parent"
+                android:layout_height="500dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gráficos Separados"
+                android:id="@+id/show_linebar_weekday"
+                android:layout_gravity="center_horizontal" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_weekday"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:visibility="gone" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart_weekday"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/nonweekday"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txtweekday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_date_gluc2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom|end"
+        android:visibility="invisible"
+        app:backgroundTint="@color/bg_screen4"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/ic_change"
+        android:layout_above="@+id/fab_date_gluc1"
+        android:layout_alignLeft="@+id/fab_date_gluc1"
+        android:layout_alignStart="@+id/fab_date_gluc1" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_date_gluc1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="38dp"
+        android:layout_gravity="bottom|end"
+        android:tag="@string/app_name"
+        android:visibility="invisible"
+        app:elevation="6dp"
+        app:backgroundTint="@color/bg_screen3"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/ic_share"
+        android:layout_above="@+id/fab_date_gluc"
+        android:layout_alignLeft="@+id/fab_date_gluc"
+        android:layout_alignStart="@+id/fab_date_gluc" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_date_gluc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/add_ic"
+        app:layout_anchorGravity="top|end"
+        android:layout_marginRight="52dp"
+        android:layout_marginBottom="75dp"
+        android:layout_marginEnd="52dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

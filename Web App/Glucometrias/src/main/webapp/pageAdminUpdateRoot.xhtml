@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/app.ico"/>
+        <title>Glucometrías</title>
+    </h:head>
+    <h:body style="background-color: #9CD2F0;">
+        <b:growl globalOnly="true" id="growl" showDetail="true" delay="3000"  />
+        <f:metadata>
+            <f:viewAction action="#{pageAdminController.datosAdmin()}"/>
+            <f:viewAction action="#{loginUserController.validateSession('admin')}"/>            
+        </f:metadata>
+        <b:navBar brand="Glucometrías!" brandHref="#">
+            <h:form class="navbar-form navbar-right">                
+                <b:row>
+                    <b:column span="4"> <b:commandButton  action="#{pageAdminController.redirectpageAdmin()}"  value="Volver" look="info" /></b:column>
+                    <b:column span="4"><b:commandButton  action="#{loginUserController.logoutUser()}" value="Cerrar Sesión"  />  </b:column>              
+                </b:row>     
+            </h:form>
+        </b:navBar>
+        
+        <b:container>
+            <h:form>
+            <b:row>
+                <b:column span="3">
+                    <b:panel  look="info" collapsible="false">
+                        <f:facet name="heading">
+                            <center> <b:iconAwesome name="user" size="5x"/> </center><br/>
+                            <center> <h:outputText id="name" value="#{pageAdminController.admin.name}" /></center>
+                        </f:facet>
+                        
+                       <b:panelGrid columns="2" colSpans="4,8" > 
+                                <h:outputLabel for="ced" value="Usuario:  " />
+                                <h:outputText id="ced" value="#{pageAdminController.admin.ndivalue}" /> 
+                                <h:outputLabel for="phone" value="Teléfono:  " />
+                                <h:outputText id="phone" value="#{pageAdminController.admin.phone}" />
+                                <h:outputLabel for="correo" value="Email:  " />
+                                <h:outputText id="correo" value="#{pageAdminController.admin.email}" /> 
+                                <h:outputLabel for="address" value="Dirección: " />
+                                <h:outputText id="address" value="#{pageAdminController.admin.address}" /> 
+                            </b:panelGrid>
+                    </b:panel>
+                </b:column>
+                <b:column span="9">
+                    <b:jumbotron style="background-color: #ffffff; color: #31708f;">
+                        <center><h2>Administrador del sistema</h2></center>
+                        <center><p>Aquí podrás actualizar tus datos en la aplicación.</p></center>
+                        <br/><br/><br/>
+                      
+                    </b:jumbotron>
+                </b:column>
+            </b:row>
+        </h:form>
+            <b:row>
+                
+                <b:column span="12">
+                    <b:panel title="Información del Administrador" collapsible="false" look="info">
+                        <h:form id="form">
+                            <p:focus context="form"/>
+                            <p:spacer height="10" />
+                            <h3>Datos personales</h3>
+                            <p:separator />
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:panelGrid columns="3" > 
+                                        <h:outputLabel for="given" value="Nombre y apellidos "/>
+                                        <b:inputText id="given" value="#{pageAdminController.admin.name}" placeholder="Escribe el nombre" required="true" requiredMessage="Campo vacío" autocomplete="false"/>
+                                        <b:message for="given" />
+
+                                        <h:outputLabel for="ndi" value="Tipo de documento: "/>
+                                        <b:selectOneMenu value="#{pageAdminController.admin.ndi}" id="ndi">
+                                            <f:selectItem itemLabel="C.C" itemValue="Cédula de ciudadanía"/>
+                                            <f:selectItem itemLabel="T.I" itemValue="Tarjeta de Identidad"/>
+                                            <f:selectItem itemLabel="R.C" itemValue="Registro Civil"/>
+                                        </b:selectOneMenu>
+                                        <br/>
+
+                                        <h:outputLabel for="ndivalue" value="Número de documento: "/>                                        
+                                        <b:inputText id="ndivalue" value="#{pageAdminController.admin.ndivalue}" placeholder="Escribe el número de documento" required="true" requiredMessage="Campo vacío"  validatorMessage="Solo numeros" autocomplete="false">
+                                            <f:validateRegex pattern="[0-9]+" />
+                                        </b:inputText> 
+                                        <b:message for="ndivalue"/>
+
+                                        <h:outputLabel for="telhome" value="Teléfono: "/>                                        
+                                        <b:inputText id="telhome" value="#{pageAdminController.admin.phone}" placeholder=" Escribe tu teléfono de casa" required="true" requiredMessage="Campo vacío"  validatorMessage="Solo numeros" autocomplete="false" >
+                                            <f:validateRegex pattern="[0-9]+" />
+                                        </b:inputText> 
+                                        <b:message for="telhome"/>
+
+                                        <h:outputLabel for="line" value="Dirección de residencia: "/> 
+                                        <b:inputText  id="line" value="#{pageAdminController.admin.address}" placeholder=" Escribe tu dirección de domicilio" required="true" requiredMessage="Campo vacío" autocomplete="false"/>
+                                        <b:message for="line"/>
+
+                                        <h:outputLabel for="email" value="e-mail: "/> 
+                                        <b:inputText id="email" value="#{pageAdminController.admin.email}" placeholder="tucorreo@example.com" required="true" requiredMessage="Por favor escriba su correo electrónico." validatorMessage="Formato inválido" autocomplete="false">
+                                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                        </b:inputText>                                       
+                                        <b:message for="email"/>
+                                    </b:panelGrid>  
+                                </b:column>
+                            </b:row>
+
+                            <p:spacer height="10" />
+                            <h3>Datos de usuario</h3>
+                            <p:separator />
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:panelGrid columns="3"> 
+                                        <h:outputLabel for="password" value="Contraseña: "/>
+                                        <p:password match="confirmPass" feedback="false" id="password" value="#{pageAdminController.admin.password}" required="true" requiredMessage="Campo vacío" validatorMessage="Los campos no coinciden" autocomplete="false"/>
+                                        <b:message for="password"/>  
+
+                                        <h:outputLabel for="repite_password" value="Repite la contraseña: "/>
+                                        <p:password id="confirmPass" feedback="false" required="true" requiredMessage="Campo vacío" autocomplete="false"/>
+                                        <b:message for="confirmPass" />  
+                                    </b:panelGrid> 
+                                </b:column>                                    
+                            </b:row>
+                            <br/>
+                            <b:growl globalOnly="true" id="growl" showDetail="true" delay="3000"  />
+                            <b:commandButton  action="#{pageAdminController.updateAdmin()}" update="form,growl" value="Crear usuario" look="info" size="lg" />
+
+                           
+                        </h:form>
+                        
+                        <p:dialog header="Administrador Actualizado" widgetVar="dialog" modal="true" minHeight="40" closable="false">
+                            <center>Tus datos fueron actualizados.</center>
+                            <br/>                           
+                                <b:row>
+                                    <center>
+                                    <b:column span="10" offset="1">
+                                        <h:form>                                        
+                                            <b:commandButton  action="#{pageAdminController.redirectpageAdmin()}" value="Aceptar" look="info" size="lg" />    
+                                        </h:form>
+                                    </b:column> 
+                                        </center>
+                                </b:row>                           
+                            </p:dialog>
+                         
+                    </b:panel>
+                </b:column>
+            </b:row>
+            
+        </b:container>
+        
+    </h:body>
+</html>
+

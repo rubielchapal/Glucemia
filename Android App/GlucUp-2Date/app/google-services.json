@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "46295127480",
+    "firebase_url": "https://glucup2date.firebaseio.com",
+    "project_id": "glucup2date",
+    "storage_bucket": "glucup2date.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46295127480:android:85178142e8769b52",
+        "android_client_info": {
+          "package_name": "magnusdroid.com.glucup_2date"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46295127480-kmog8ji6mag9c90js89tev6jdbps580f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt07y8p8eRVnEl0iP4GlmaP1KZgMxtT60"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

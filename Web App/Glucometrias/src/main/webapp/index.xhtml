@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/app.ico"/>
+        <title>Glucometrías</title>
+        <h:outputStylesheet library="css" name="style.css"/>
+
+        <style>
+            body{
+                background-image: url("resources/img/fondo4.jpg");
+                background-position: center;
+                background-size: 100%;
+                background-attachment: fixed;
+                color: #000;
+            }
+
+            .caja{
+                color: #fff;
+                background-color: rgba(48,118,153,0.3);
+            }
+
+            #logo {
+                width: 150px;
+                height: 150px;
+                margin: 40px auto;
+                background: url(resources/img/logoGTST.png) no-repeat rgba(20, 118, 143, .5) 50%;
+                border-radius: 50%;
+                border: 10px solid rgba(255, 255, 255, .2);
+                padding: 13px;
+                text-indent: -99999px;
+            }
+
+            #logo2 {
+                width: 150px;
+                height: 150px;
+                margin: 40px auto;
+                background: url(resources/img/o.png) no-repeat rgba(20, 118, 143, .5) 50%;
+                border-radius: 50%;
+                border: 10px solid rgba(255, 255, 255, .2);
+                padding: 13px;
+                text-indent: -99999px;
+            }
+
+            .well{
+                color: #fff;
+                background-color: rgba(20, 118, 143, .4); 
+                border: 5px solid rgba(20, 118, 143, .1);
+            }
+
+            .boton{
+                background: #549BCE;
+                color: #fff;
+                font-family: Sans-serif;
+                font-size: 20px;
+                height: 60px;
+                width: 150px;
+                line-height: 60px;
+                margin: 25px 25px;
+                text-align: center;
+                border: 0;
+                transition: all 0.3s ease 0s;
+            }
+            button:hover {
+                background: #F0AD4E;
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
+
+    </h:head>
+    <h:body>
+        <b:jumbotron styleClass="caja" >            
+            <center><h1>Glucometrías!</h1></center>
+            <center><p>Sistema para la gestión de exámenes de glucosa.</p></center>           
+        </b:jumbotron>
+        <b:growl  id="growl" showDetail="false" delay="3000"  />
+
+        <b:row>           
+            <b:column span="2" offset="2">
+                <div id="logo"/>
+            </b:column>
+
+            <b:column span="4"><p:spacer height="50" /> <center><a href="javascript:$.scrollTo('#section2',800);"> <button class="boton"  >  Iniciar sesión</button></a></center></b:column>
+            <b:column span="2">
+                <div id="logo2"/>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column span="4" offset="2">
+                <b:well>
+                    <h3>Bienvenidos.</h3>                            
+                    <h4>
+                        <p align="justify">Mantener los niveles de glucosa en la sangre en equilibrio, permite controlar enfermedades como la diabetes. Para ello es importante llevar un registro diario del nivel de azucar y así estar informado de como su cuerpo responde a los tratamientos. Esta plataforma permite a los usuarios registrar, consultar y mantener un historial de información sobre los niveles de glucosa de los pacientes.</p>
+                    </h4>
+                </b:well>
+            </b:column>
+            <b:column span="4">
+                <b:well>                   
+                    <center><a href="https://drive.google.com/file/d/0By1VjmcVY702RGF3UE40LUxpT0k/view?usp=sharing"><h:graphicImage library="img" name="apk.png"/></a></center>
+                </b:well>
+            </b:column>
+        </b:row>
+        <p:spacer height="300" />  
+        <b:jumbotron styleClass="caja" >            
+            <center><h1>Inicio de Sesión!</h1></center>
+        </b:jumbotron>
+        <p:spacer height="100" /> 
+        <b:row>
+            <b:column offset="3" span="6">
+                <b:panel collapsible="false" look="info">
+                    <f:facet name="heading">
+                        <b:row >
+                            <b:column span="3">
+                                <b:iconAwesome name="user-md" size="5x" id="section2"/>
+                            </b:column>
+                            <b:column span="9" ><h3 align="right">Inicio de Sesión</h3><h4 align="right">SISTEMA PARA LA GESTION EN SALUD</h4>
+                            </b:column>
+                        </b:row>                        
+                    </f:facet>
+                    <b:container fluid="true">
+                        <h:form id="form">
+                            <b:row>
+                                <b:inputText value="#{loginUserController.ndivalue}"  placeholder="Número de documento" id="username" autocomplete="false" required="true" requiredMessage="Escribe tu No. de documento." >
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="user" />
+                                    </f:facet>
+                                </b:inputText>
+                            </b:row>
+                            <b:row>
+                                <b:inputSecret value="#{loginUserController.password}"  placeholder="Contraseña" id="password" autocomplete="false" required="true" requiredMessage="Escribe tu Contraseña.">
+                                    <f:facet name="prepend">
+                                        <b:iconAwesome name="lock"/>
+                                    </f:facet>
+                                </b:inputSecret>
+                            </b:row>                        
+                            <b:column span="6">
+                                <b:commandButton action="#{loginUserController.loginUser()}"  size="lg" value="Iniciar Sesión"   look="info" style="width:100%"  update="form,growl"/>                                 
+                            </b:column>
+                        </h:form>
+                        <h:form>
+                            <b:column span="6">
+                                <b:commandButton size="lg" action="#{loginUserController.redirectRecoveryPassword()}" value="Recuperar Contraseña"  look="warning" style="width:100%" />
+                            </b:column>
+                        </h:form>
+                    </b:container>
+                </b:panel>
+            </b:column>
+        </b:row>
+
+        <p:spacer height="100" /> 
+        <b:row id="layout-footer">
+
+            <b:column  span="1">
+                <a href="https://drive.google.com/file/d/0By1VjmcVY702QldfazhuRHBwZGs/view?usp=sharing"> 
+                    <center><b:iconAwesome name="cloud-download" size="2x" style="color: #FFF;" /> </center>
+                    <center><h5 style="color: #FFF;">Manual del usuario</h5></center>
+                </a>
+            </b:column>
+            <b:column span="11">
+                <h5>                
+                    <center>Diseñado por el grupo de tratamiento de señales y telecomunicaciones</center>  
+                    <center>GTST</center>
+                    <center>Copyright &#64; 2016</center>
+                </h5>
+            </b:column>
+        </b:row>
+    </h:body>
+</html>
