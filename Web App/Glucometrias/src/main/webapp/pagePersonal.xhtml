@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/app.ico"/>
+        <title>Glucometrías</title>
+    </h:head>
+    <h:body style="background-color: #9CD2F0;">
+        <b:growl globalOnly="true" id="growl" showDetail="true" delay="3000"  />
+        <f:metadata>
+            <f:viewAction action="#{pagePersonalController.datosPersonal(loginUserController.ndivalue)}"/>
+            <f:viewAction action="#{loginUserController.validateSession('personal')}"/>
+        </f:metadata>
+        <b:navBar brand="Glucometrías!" brandHref="#">
+            <h:form class="navbar-form navbar-right">  
+                <b:commandButton  action="#{loginUserController.logoutUser()}" value="Cerrar Sesión"  />                        
+            </h:form>
+        </b:navBar>
+       
+        <b:container> 
+            <b:row>
+                <b:column span="3">
+                     <h:form>
+                    <b:panel  look="info" collapsible="false">
+                        <f:facet name="heading">
+                            <center> <b:iconAwesome name="user-md" size="5x"/> </center><br/>
+                            <center> <h:outputText id="name" value="#{pagePersonalController.personal.given} " />  <h:outputText id="lasname" value="#{pagePersonalController.personal.family}" /></center>
+                        </f:facet>
+                        
+                       <b:panelGrid columns="2" colSpans="4,8" > 
+                                <h:outputLabel for="ced" value="Usuario:  " />
+                                <h:outputText id="ced" value="#{pagePersonalController.personal.ndivalue}" /> 
+                                <h:outputLabel for="phone" value="Teléfono:  " />
+                                <h:outputText id="phone" value="#{pagePersonalController.personal.telmobile}" />
+                                <h:outputLabel for="correo" value="Email:  " />
+                                <h:outputText id="correo" value="#{pagePersonalController.personal.email}" /> 
+                                <h:outputLabel for="address" value="Dirección: " />
+                                <h:outputText id="address" value="#{pagePersonalController.personal.line}" /> 
+                            </b:panelGrid>
+                    </b:panel>
+                    </h:form>
+                </b:column>
+                <b:column span="9">
+                    <b:jumbotron style="background-color: #ffffff; color: #31708f;">
+                        <center><h2>Personal Médico</h2></center>
+                        <center><p>Aquí podrás consultar y registrar información sobre medidas de glucosa de los pacientes.</p></center>
+                        <br/><br/>
+                    </b:jumbotron>
+                </b:column>
+            </b:row>
+             <b:row>
+                
+                <b:column span="12">
+                    <b:panel  look="info" collapsible="false" title="Acciones">
+                        <b:row>                         
+                            <b:column span="6" offset="3">
+                                <b:well>                                    
+                                    <b:row>                                       
+                                    <b:column span="12"><h4>Consulta a un paciente!</h4>A través de su Número de documento</b:column>
+                                    </b:row>
+                                    <br/>
+                                    <b:row>
+                                        <h:form>
+                                        <b:column span="8">                                                                            
+                                            <b:inputText  id="ndivalue" value="#{loginUserController.ndipaciente}" placeholder="Escribe el número de documento" required="true" requiredMessage="Campo vacío"  validatorMessage="Solo numeros" >
+                                            <f:validateRegex pattern="[0-9]+" />
+                                        </b:inputText> 
+                                        <b:message for="ndivalue"/>
+                </b:column>
+                                        <b:column span="8"   >
+                                            <b:commandButton  action="#{pagePersonalController.searchPaciente(loginUserController.ndipaciente)}" update="growl" value="Acceder" look="info" size="lg" ></b:commandButton>
+                                        </b:column>
+                                        </h:form>
+            </b:row>
+                                </b:well>
+                            </b:column>                            
+                        </b:row>
+                    </b:panel>
+                </b:column>
+            </b:row>
+            
+        </b:container>
+            
+    </h:body>
+</html>
+

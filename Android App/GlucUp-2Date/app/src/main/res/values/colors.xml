@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color-->
+    <color name="colorPrimary">#03a9f4</color>
+    <color name="colorPrimaryDark">#0288d1</color>
+    <color name="primary_light">#B3E5FC</color>
+    <color name="colorAccent">#4CAF50</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#ffffff</color>
+    <color name="divider">#B6B6B6</color>
+
+    <color name="colorFAB1">#3F51B5</color>
+    <color name="colorFAB2">#673AB7</color>
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#03a9f4</color>
+    <color name="bg_screen2">#2196f3</color>
+    <color name="bg_screen3">#3F51B5</color>
+    <color name="bg_screen4">#673AB7</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#0288D1</color>
+    <color name="dot_dark_screen2">#1976d2</color>
+    <color name="dot_dark_screen3">#303f9f</color>
+    <color name="dot_dark_screen4">#512DA8</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#B3E5FC</color>
+    <color name="dot_light_screen2">#BBDEFB</color>
+    <color name="dot_light_screen3">#C5CAE9</color>
+    <color name="dot_light_screen4">#D1C4E9</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+        <item>@color/dot_light_screen4</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+        <item>@color/dot_dark_screen4</item>
+    </array>
+
+    <!-- high, low, normal value colors -->
+    <color name="high_value">#BF0D0D</color>
+    <color name="low_value">#3875A2</color>
+    <color name="normal_value">#208A18</color>
+
+    <color name="black_overlay">#66000000</color>
+</resources>

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/app.ico"/>
+        <title>Glucometrías</title>
+    </h:head>
+    <h:body style="background-color: #9CD2F0;">
+        <b:growl globalOnly="true" id="growl"  showDetail="false"  delay="3000"  />
+  
+            <f:metadata>
+            <f:viewAction action="#{pagePersonalController.datosPersonal(loginUserController.ndivalue)}"/>
+            <f:viewAction action="#{pagePersonalController.datosPaciente((loginUserController.ndipaciente))}"/>
+            <f:viewAction action="#{registerGlucoseController.glucose.setPacient(loginUserController.ndipaciente)}"/>
+            <f:viewAction action="#{registerGlucoseController.glucose.setPersonal(loginUserController.ndivalue)}"/>
+            <f:viewAction action="#{pagePersonalController.showTable(loginUserController.ndipaciente)}"/>
+            <f:viewAction action="#{loginUserController.validateSession('personal')}"/>
+
+        </f:metadata>
+        <b:navBar brand="Glucometrías!" brandHref="#">
+            <h:form class="navbar-form navbar-right"> 
+                
+                <b:row>
+                    <b:column span="4"> <b:commandButton  action="#{pagePersonalController.redirectPagePersonalViewPatient()}"  value="Volver" look="info" /></b:column>
+                    <b:column span="4"><b:commandButton  action="#{loginUserController.logoutUser()}" value="Cerrar Sesión"  />  </b:column>
+                   
+                
+                 
+                </b:row>
+                
+                             
+            </h:form>
+        </b:navBar>
+
+        <b:container> 
+
+            <b:row>
+                <b:column span="12">
+                    <b:panel title="Informacion del Paciente" collapsible="false" look="info">
+                        <h:form>
+                             <b:row>
+                                <b:container>
+                                    
+                                </b:container>
+                                   
+                            </b:row>
+                            <p:spacer height="10" />
+                            <h3>Informacion del paciente</h3>
+                            <p:separator />
+                              <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:panelGrid columns="4" > 
+                                        <h:outputLabel value="Nombre: "  />
+                                        <h:outputText value="#{pagePersonalController.patient.given} #{pagePersonalController.patient.family}"/>
+                                        <h:outputLabel value="#{pagePersonalController.patient.ndi} "  />
+                                        <h:outputText value="#{pagePersonalController.patient.ndivalue}"/>
+
+                                        <h:outputLabel value="Tipo de sangre: "  />
+                                        <h:outputText value="#{pagePersonalController.patient.blood}"/>
+                                        <h:outputLabel value="Telefono de casa: "  />
+                                        <h:outputText value="#{pagePersonalController.patient.telhome}"/>
+
+                                        <h:outputLabel value="Telefono de oficina "  />
+                                        <h:outputText value="#{pagePersonalController.patient.telwork}"/>
+                                        <h:outputLabel value="Telefono movil "  />
+                                        <h:outputText value="#{pagePersonalController.patient.telmobile}"/>
+
+                                        <h:outputLabel value="Edad: "  />
+                                        <h:outputText value="#{pagePersonalController.patient.birthDate}"/>
+                                        <h:outputLabel value="email: "  />
+                                        <h:outputText value="#{pagePersonalController.patient.email}"/>
+
+                                        <h:outputLabel value="Dirección: "  />
+                                        <h:outputText value="#{pagePersonalController.patient.line} de #{pagePersonalController.patient.city}"/>
+                                        <h:outputLabel value="EPS "  />
+                                        <h:outputText value="#{pagePersonalController.patient.managingOrganization}"/>
+                                    </b:panelGrid>  
+                                </b:column>
+                            </b:row>
+                              </h:form>
+                             <p:spacer height="10" />
+                           
+                        
+                            <h3>Gráfico Histórico</h3>
+                            <p:separator />
+                        <h:form>
+                            <b:commandButton  action="#{pagePersonalController.redirectPagePersonalViewPatientGraphicTime()}"  value="Ver Historial Gráfico" look="info" size="lg"/>                            
+                        </h:form>
+                            <p:spacer height="10" />
+                            <h3>Grafico Diario</h3>
+                            <p:separator />
+                            <h:form>  
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:row>
+                                        <b:column span="2">
+                                            <h:outputLabel for="date" value="Fecha de medida: "/>                            
+                                        </b:column>
+                                        <b:column span="2">
+                                            <b:inputText id="date" value="#{chartView.fecha}" placeholder="dd/mm/aa" required="true" requiredMessage="Por favor escriba la fecha." validatorMessage="Use el formato dd/mm/aa" >
+                                            <f:validateRegex pattern="[0-3]?[0-9]\/[0-1]?[0-9]\/[0-9][0-9]" />
+                                        </b:inputText> 
+                                        
+                                        </b:column>
+                                        <b:column span="2">
+                                            <b:commandButton  action="#{chartView.ShowLineChart(loginUserController.ndipaciente)}"  value="Graficar" look="info" />
+                                 
+                                        </b:column>
+                                          <b:column span="4">
+                                              <b:message for="date"/> 
+                                        </b:column>
+                                       
+                                    </b:row>
+                                     <br/>
+                                     <p:chart type="line" model="#{chartView.grafica}" />
+                                </b:column>
+                            </b:row>
+                            <br/>  
+                           
+                        </h:form>            
+                    </b:panel>
+                </b:column>
+            </b:row>
+        </b:container>
+    </h:body>
+</html>
+

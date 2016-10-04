@@ -1,9 +1,7 @@
-GlucUP-2Date
+GTST - Glucometria
 ===================
 
-New Features !!
-
-- Added new class for send and recieve push notification via AndroidApp using FireBase Cloud Messaging
+This is a project developed by the research group of the Surcolombiana University `GTST` and funded by ViceRector of Research and Social Projection
 
 ----------
 
@@ -11,16 +9,11 @@ New Features !!
 Documents
 -------------
 
-#### 1. FHIR folder has all project  developed using Servlet and MySQL. Version for register a pacient/personal, adding observation glucose and list observation
+#### 1. Test folder has the first server building for this project, it can be used for developed other project using FHIR standar
 
-#### 2.  *fhir.mwb* is the DB Schema
+#### 2.  Android App (GlucUp-2Date): Has all the files created to developed the android app. Has JavaDoc, User Manual (only in Spanish) and apk
 
-
-> **Note:** When you go try to run this project in your own pc, check all libs first... fundamentally *<u>jdbc driver</u>*
-
+#### 3.  Web App : Has all the files created to developed the web app. Has JavaDoc, User Manual (only in Spanish) and DB files
 
 
-![](https://www.mysql.com/common/logos/logo-mysql-170x115.png)
-![](http://www.sourcefreak.com/wp-content/uploads/servlet.png)
-![](https://upload.wikimedia.org/wikipedia/commons/7/7b/Tomcat-logo.svg)
-![](http://www.json.org/img/json160.gif)
+> **Note:** Once you forked or downloaded the project, see the 'Informe de Desarrollo' to know how to configure for your own buildings

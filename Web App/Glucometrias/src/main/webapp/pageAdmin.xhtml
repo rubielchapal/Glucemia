@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/app.ico"/>
+       <title>Glucometrías</title>
+    </h:head>
+    <h:body style="background-color: #9CD2F0;">
+
+        <b:growl globalOnly="true" id="growl" showDetail="true" delay="3000"  />
+        <f:metadata>
+            <f:viewAction action="#{pageAdminController.datosAdmin()}"/>
+            <f:viewAction action="#{loginUserController.validateSession('admin')}"/>
+            <f:viewAction action="#{loginUserController.clean()}"/>
+        </f:metadata>
+        <b:navBar brand="Glucometrías!" brandHref="#">
+            <h:form class="navbar-form navbar-right ">  
+                <b:commandButton  action="#{loginUserController.logoutUser()}" value="Cerrar Sesión"  />                        
+            </h:form>
+        </b:navBar>
+
+        <b:container> 
+            <b:row>
+                <b:column span="3">
+                    <b:panel  look="info" collapsible="false">
+                        <f:facet name="heading">
+                            <center> <b:iconAwesome name="user" size="5x"/> </center><br/>
+                            <center> <h:outputText id="name" value="#{pageAdminController.admin.name}" /></center>
+                        </f:facet>  
+                        <h:form>
+                            <b:panelGrid columns="2" colSpans="4,8" > 
+                                <h:outputLabel for="ced" value="Usuario:  " />
+                                <h:outputText id="ced" value="#{pageAdminController.admin.ndivalue}" /> 
+                                <h:outputLabel for="phone" value="Teléfono:  " />
+                                <h:outputText id="phone" value="#{pageAdminController.admin.phone}" />
+                                <h:outputLabel for="correo" value="Email:  " />
+                                <h:outputText id="correo" value="#{pageAdminController.admin.email}" /> 
+                                <h:outputLabel for="address" value="Dirección: " />
+                                <h:outputText id="address" value="#{pageAdminController.admin.address}" /> 
+                            </b:panelGrid>
+                        </h:form>
+                    </b:panel>
+                </b:column>
+                <b:column span="9">
+                    <b:jumbotron style="background-color: #ffffff; color: #31708f;">
+                        <center><h2>Administrador del sistema</h2></center>
+                        <center><p>Aquí podrás registrar los usuarios de la aplicación.</p></center>
+                        <br/>
+                        <h:form>
+                            <center>                    
+                                <b:commandButton  action="#{pageAdminController.redirectpageAdminUpdateRoot()}" update="growl" value="Actualizar datos del administrador" look="info" size="lg" ></b:commandButton>                                  
+                            </center>
+                        </h:form>
+
+                    </b:jumbotron>
+                </b:column>
+            </b:row>
+            <b:row>
+
+                <b:column span="12">
+                    <b:panel  look="info" collapsible="false" title="Acciones">
+                        <b:row>
+                            <b:column span="5" offset="1">
+                                <b:well>
+
+                                    <b:row>
+                                        <b:column span="3"><b:iconAwesome name="user-plus" size="5x"/></b:column>
+                                        <b:column span="9"><h4>Ingresa un nuevo paciente!</h4>Para acceso a la aplicación</b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <h:form>
+                                            <b:column span="6" offset="3" >
+                                                <b:commandButton  action="#{pageAdminController.insertPatientFromAdmin()}" update="growl" value="Acceder" look="info" size="lg" ></b:commandButton>
+                                            </b:column>
+                                        </h:form>
+                                    </b:row>                                    
+                                </b:well>
+                            </b:column>
+
+                            <b:column span="5">
+                                <b:well>                                    
+                                    <b:row>
+                                        <b:column span="3"><b:iconAwesome name="user-md" size="5x"/></b:column>
+                                        <b:column span="9"><h4>Ingresa un nuevo personal!</h4>Para acceso a la aplicación</b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <h:form>
+                                            <b:column span="6" offset="3" >
+                                                <b:commandButton  action="#{pageAdminController.insertPersonalFromAdmin()}" update="growl" value="Acceder" look="info" size="lg" ></b:commandButton>
+                                            </b:column>
+                                        </h:form>
+                                    </b:row>
+
+                                </b:well>
+                            </b:column>
+
+                        </b:row>
+                        <b:row>
+                            <b:column span="5" offset="1"> 
+                                <b:well>                                    
+                                    <b:row>
+                                        <b:column span="3"><b:iconAwesome name="user-md" size="5x"/></b:column>
+                                        <b:column span="9"><h4>Actualizar datos del paciente!</h4>Para acceso a la aplicación</b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <h:form id="form5">
+                                            <p:focus context="form5"/>
+                                            <b:column span="9" offset="3">  
+                                                <b:message for="ndivalue"/>
+                                                <b:inputText  id="ndivalue" value="#{loginUserController.ndipaciente}" placeholder="Escribe el número de documento" required="true" requiredMessage="Campo vacío"  validatorMessage="Solo numeros" >
+                                                    <f:validateRegex pattern="[0-9]+" />
+                                                </b:inputText> 
+
+                                            </b:column>
+                                            <b:column span="8"   >
+                                                <b:commandButton  action="#{pageAdminController.searchPaciente(loginUserController.ndipaciente)}" update="growl,form5" value="Acceder" look="info" size="lg" ></b:commandButton>
+                                            </b:column>
+                                        </h:form>
+
+                                    </b:row>                                    
+                                </b:well>
+                            </b:column>                             
+                            <b:column span="5">
+                                <b:well>                                    
+                                    <b:row>
+                                        <b:column span="3"><b:iconAwesome name="user-md" size="5x"/></b:column>
+                                        <b:column span="9"><h4>Actualizar datos del personal!</h4>Para acceso a la aplicación</b:column>
+                                    </b:row>
+                                    <b:row>                                      
+                                        <h:form id="form4">
+                                            <p:focus context="form3"/>
+                                            <b:column span="9" offset="3"> 
+                                                <b:message for="ndivalue"/>
+                                                <b:inputText  id="ndivalue" value="#{loginUserController.ndipaciente}" placeholder="Escribe el número de documento" required="true" requiredMessage="Campo vacío"  validatorMessage="Solo numeros" >
+                                                    <f:validateRegex pattern="[0-9]+" />
+                                                </b:inputText> 
+
+                                            </b:column>
+                                            <b:column span="8"   >
+                                                <b:commandButton  action="#{pageAdminController.searchPersonal(loginUserController.ndipaciente)}" update="growl,form4" value="Acceder" look="info" size="lg" ></b:commandButton>
+                                            </b:column>
+                                        </h:form>
+
+                                    </b:row>                                    
+                                </b:well>
+                            </b:column>                            
+                        </b:row>
+
+                        <b:row>
+                            <b:column span="5" offset="1"> 
+                                <b:well>                                    
+                                    <b:row>
+                                        <b:column span="3"><b:iconAwesome name="user-md" size="5x"/></b:column>
+                                        <b:column span="9"><h4>Eliminar un paciente!</h4>Borra todo sobre el paciente</b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <h:form id="form3">
+                                            <p:focus context="form3"/>
+                                            <b:column span="9" offset="3">  
+                                                <b:message for="ndivalue"/>
+                                                <b:inputText  id="ndivalue" value="#{pageAdminController.deleteUserPatient}" placeholder="Escribe el número de documento" required="true" requiredMessage="Campo vacío"  validatorMessage="Solo numeros" >
+                                                    <f:validateRegex pattern="[0-9]+" />
+                                                </b:inputText> 
+
+                                            </b:column>
+                                            <b:column span="8"   >
+                                                <b:commandButton  action="#{pageAdminController.confirmDeletePatient()}" update="growl,form3" value="Eliminar" look="info" size="lg" ></b:commandButton>
+                                            </b:column>
+                                        </h:form>
+
+                                    </b:row>                                    
+                                </b:well>
+                            </b:column>                             
+                            <b:column span="5">
+                                <b:well>                                    
+                                    <b:row>
+                                        <b:column span="3"><b:iconAwesome name="user-md" size="5x"/></b:column>
+                                        <b:column span="9"><h4>Eliminar usuario de personal!</h4>Borra todo sobre el usuario personal</b:column>
+                                    </b:row>
+                                    <b:row>                                      
+                                        <h:form id="form2">
+                                            <p:focus context="form2"/>
+                                            <b:column span="9" offset="3"> 
+                                                <b:message for="ndivalue"/>
+                                                <b:inputText  id="ndivalue" value="#{pageAdminController.deleteUserPersonal}" placeholder="Escribe el número de documento" required="true" requiredMessage="Campo vacío"  validatorMessage="Solo numeros" >
+                                                    <f:validateRegex pattern="[0-9]+" />
+                                                </b:inputText> 
+
+                                            </b:column>
+                                            <b:column span="8"   >
+                                                <b:commandButton action="#{pageAdminController.confirmDeletePersonal()}" update="growl,form2"  value="Eliminar" look="info" size="lg" ></b:commandButton>
+                                            </b:column>                                            
+                                        </h:form>
+
+                                    </b:row>                                    
+                                </b:well>
+                            </b:column>                            
+                        </b:row>
+                    </b:panel>
+                </b:column>
+            </b:row>
+
+        </b:container>
+
+        <b:row>
+            <h:form id="form8">
+                <p:focus context="form8"/>
+                <p:dialog header="Eliminar Usuario" widgetVar="dialogPersonal" modal="true" id="dialogPersonal">
+                    <h4><h:outputText value="Esta acción borrará toda la información del usuario personal." />
+                        <center>Si está seguro de continuar, por favor ingrese su contraseña.</center></h4>
+                    <b:row > 
+                        <center>    
+                            <h:outputLabel for="password" value="Password:" />
+                            <p:password id="password" value="#{pageAdminController.confirPassword}" required="true" label="password" accesskey="true
+                                        "/>              
+                        </center>
+                    </b:row> 
+                    <br/>
+                    <b:row>
+                        <center><b:commandButton  action="#{pageAdminController.deletePersonal(loginUserController.password)}"  value="Eliminar usuario" look="info" size="lg" /> </center>
+                    </b:row>
+                </p:dialog>
+            </h:form>
+        </b:row>
+
+
+        <b:row>
+            <h:form id="form9">
+                <p:focus context="form9"/>
+                <p:dialog header="Eliminar paciente" widgetVar="dialogPatient" modal="true" id="dialogPatient">
+                    <h4><h:outputText value="Esta acción borrará toda la información del paciente." />
+                        <center>Si está seguro de continuar, por favor ingrese su contraseña.</center></h4>
+                    <b:row > 
+                        <center>    
+                            <h:outputLabel for="password" value="Password:" />
+                            <p:password id="password" value="#{pageAdminController.confirPassword}" required="true" label="password"  accesskey="true" autocomplete="false" />              
+                        </center>
+                    </b:row> 
+                    <br/>
+                    <b:row>
+                        <center><b:commandButton  action="#{pageAdminController.deletePatient(loginUserController.password)}"  value="Eliminar usuario" look="info" size="lg" /> </center>
+                    </b:row>
+                </p:dialog>
+            </h:form>
+        </b:row>
+    </h:body>
+</html>
+

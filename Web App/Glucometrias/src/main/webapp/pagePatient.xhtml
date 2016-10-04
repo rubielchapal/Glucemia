@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/app.ico"/>
+        <title>Glucometrías</title>
+    </h:head>
+    <h:body style="background-color: #9CD2F0;">
+        <b:growl globalOnly="true" id="growl" showDetail="true" delay="3000"  />
+        <f:metadata>
+            <f:viewAction action="#{pagePatientController.datosPaciente(loginUserController.ndivalue)}"/>
+            <f:viewAction action="#{registerGlucoseController.glucose.setPacient(loginUserController.ndivalue)}"/>            
+            <f:viewAction action="#{loginUserController.validateSession('patient')}"/>            
+            <f:viewAction action="#{registerGlucoseController.glucose.setPersonal(null)}"/>
+            
+        </f:metadata>
+        <b:navBar brand="Glucometrías!" brandHref="#">
+            <h:form class="navbar-form navbar-right">  
+                <b:commandButton  action="#{loginUserController.logoutUser()}" value="Cerrar Sesión"  />                        
+            </h:form>
+        </b:navBar>       
+        <b:container> 
+            <b:row>
+                <b:column span="3">
+                    <h:form>
+                        <b:panel  look="info" collapsible="false">
+                            <f:facet name="heading">
+                                <center> <b:iconAwesome name="user" size="5x"/> </center><br/>
+                                <center> <h:outputText id="name" value="#{pagePatientController.patient.given} #{pagePatientController.patient.family} " />  <h:outputText id="lasname" value="#{pagePersonalController.personal.family}" /></center>
+                            </f:facet>                        
+                            <b:panelGrid columns="2" colSpans="4,8" > 
+                                <h:outputLabel for="ced" value="Usuario:  " />
+                                <h:outputText id="ced" value="#{pagePatientController.patient.ndivalue}" /> 
+                                <h:outputLabel for="phone" value="Teléfono:  " />
+                                <h:outputText id="phone" value="#{pagePatientController.patient.telmobile}" />
+                                <h:outputLabel for="correo" value="Email:  " />
+                                <h:outputText id="correo" value="#{pagePatientController.patient.email}" /> 
+                                <h:outputLabel for="address" value="Dirección: " />
+                                <h:outputText id="address" value="#{pagePatientController.patient.line}" /> 
+                            </b:panelGrid>
+                        </b:panel>
+                    </h:form>
+                </b:column>
+                <b:column span="9">
+                    <b:jumbotron style="background-color: #ffffff; color: #31708f;">
+                        <center><h2>Paciente</h2></center>
+                        <center><p>Aquí podrás consultar y registrar información sobre medidas de glucosa.</p></center>
+                        <br/><br/><br/>
+                    </b:jumbotron>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column span="12">
+
+                    <b:panel title="Informacion del Paciente" collapsible="false" look="info">
+
+                        <p:spacer height="10" />
+                        <h3>Informacion del paciente</h3>
+                        <p:separator />
+                        <h:form id="form">                            
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:panelGrid columns="4" > 
+                                        <h:outputLabel value="Nombre: "  />
+                                        <h:outputText value="#{pagePatientController.patient.given} #{pagePatientController.patient.family}"/>
+                                        <h:outputLabel value="#{pagePatientController.patient.ndi} "  />
+                                        <h:outputText value="#{pagePatientController.patient.ndivalue}"/>
+
+                                        <h:outputLabel value="Tipo de sangre: "  />
+                                        <h:outputText value="#{pagePatientController.patient.blood}"/>
+                                        <h:outputLabel value="Telefono de casa: "  />
+                                        <h:outputText value="#{pagePatientController.patient.telhome}"/>
+
+                                        <h:outputLabel value="Telefono de oficina "  />
+                                        <h:outputText value="#{pagePatientController.patient.telwork}"/>
+                                        <h:outputLabel value="Telefono movil "  />
+                                        <h:outputText value="#{pagePatientController.patient.telmobile}"/>
+
+                                        <h:outputLabel value="Edad: "  />
+                                        <h:outputText value="#{pagePatientController.patient.birthDate}"/>
+                                        <h:outputLabel value="email: "  />
+                                        <h:outputText value="#{pagePatientController.patient.email}"/>
+
+                                        <h:outputLabel value="Dirección: "  />
+                                        <h:outputText value="#{pagePatientController.patient.line} de #{pagePatientController.patient.city}"/>
+                                        <h:outputLabel value="EPS "  />
+                                        <h:outputText value="#{pagePatientController.patient.managingOrganization}"/>
+                                    </b:panelGrid>  
+                                </b:column>
+                            </b:row>
+                        </h:form>
+                        <h:form id="form1">
+                            <p:focus context="form1"/>
+                            <p:spacer height="10" />
+                            <h3>Toma de medida: </h3>
+                            <p:separator />
+
+                            <b:row>
+                                <b:column span="8" offset="1">
+                                    <b:panelGrid columns="3" >
+                                        <h:outputLabel value="Fecha: "/>
+                                        <h:outputText value="#{pagePersonalController.fecha}"/>
+                                        <br/>
+                                        <h:outputText value="Estado "/> 
+                                        <b:selectOneMenu value="#{registerGlucoseController.glucose.state}" >
+                                            <f:selectItem itemLabel="En ayunas" itemValue="En ayunas"/>
+                                            <f:selectItem itemLabel="Antes de desayunar" itemValue="Antes de desayunar"/>
+                                            <f:selectItem itemLabel="Despues de desayunar" itemValue="Despues de desayunar"/>
+                                            <f:selectItem itemLabel="Antes de almorzar" itemValue="Antes de almorzar"/>
+                                            <f:selectItem itemLabel="Despues de almorzar" itemValue="Despues de almorza"/>
+                                            <f:selectItem itemLabel="Antes de cenar" itemValue="Antes de cenar"/>
+                                            <f:selectItem itemLabel="Despues de cenar" itemValue="Despues de cenar"/>
+                                        </b:selectOneMenu>
+                                        <br/>
+                                        <h:outputText value="Unidad de medida "/> 
+                                        <b:selectOneMenu value="#{registerGlucoseController.unit}" >
+                                            <f:selectItem itemLabel="mmol/l " itemValue="mmol/l"/>
+                                            <f:selectItem itemLabel="mg/dl" itemValue="mg/dl"/>
+                                        </b:selectOneMenu>
+                                        <br/>
+                                         <h:outputText value="Valor de la medida"/> 
+                                        <b:inputText id="muestra" value="#{registerGlucoseController.glucose.data}" placeholder="Valor" required="true" requiredMessage="Campo vacío"  validatorMessage="Solo numeros" >
+                                            <f:validateRegex pattern="^[1-9]\d*(\.\d+)?$" />
+                                        </b:inputText>                                       
+                                        <b:message for="muestra"/>
+                                        <br/>
+                                    </b:panelGrid>  
+                                </b:column>
+                            </b:row>                          
+
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:commandButton action="#{registerGlucoseController.crearGlucose()}" update="form" value="Guardar medida" look="info" size="lg" onclick="false"/>
+                                </b:column>
+                            </b:row>
+                        </h:form>
+                        <h:form>
+                            <p:spacer height="10" />
+                            <h3>Historial</h3>
+                            <p:separator />                              
+                            <b:row>
+                                <b:column span="5" offset="1">
+                                    <b:commandButton value="Ver grafico" look="info" size="lg" action="#{pagePatientController.redirectPagePatientViewGraphic()}" >
+                                        <b:iconAwesome name="area-chart"/>                                      
+                                    </b:commandButton>
+                                </b:column>
+                                <b:column span="6" >
+                                    <b:commandButton action="#{pagePatientController.redirectPagePatientViewTabla()}" value="Ver tabla" look="info" size="lg" />
+                                </b:column>
+                            </b:row>
+                        </h:form>
+                    </b:panel>
+                </b:column>
+            </b:row>            
+        </b:container>            
+    </h:body>
+</html>

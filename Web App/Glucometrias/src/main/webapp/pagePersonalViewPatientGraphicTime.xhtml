@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/app.ico"/>
+        <title>Glucometrías</title>
+    </h:head>
+    <h:body style="background-color: #F8F8F8;" >
+        <b:growl globalOnly="true" id="growl"  showDetail="false"  delay="3000"  />
+        <f:metadata>
+            <f:viewAction action="#{loginUserController.validateSession('personal')}"/>
+            <f:viewAction action="#{chartView.ShowTimeLineChart(loginUserController.ndipaciente)}" />
+        </f:metadata>
+        <br/>
+        <b:row>
+            <b:column span="2" offset="1">
+                <b:row>
+                    <h:form>
+                        <b:column span="3">                
+                            <b:commandButton  action="#{pagePersonalController.redirectPagePersonalViewPatientGraphic()}"  value="Volver" look="info" />
+                        </b:column>
+                        <b:column span="2">
+                            <b:commandButton  action="#{loginUserController.logoutUser()}" value="Cerrar Sesión" look="info" /> 
+                        </b:column>
+                    </h:form>
+                </b:row>                
+            </b:column> 
+            <b:column span="3" >              
+                    <h4>Consideraciones: </h4>
+                    - Abscisa  X muestra la fecha de medidas (mes/día/año hora:minutos)<br/>
+                    - Abscisa  Y muestra la medida de glucosa en mg//dl<br/>
+                    - Selecciona una zona de la gráfica para hacer zoom<br/>
+                    - Doble click para volver del zoom<br/>
+                    - Mueve el scroll horizontal para ver el resto de la gráfica 
+            </b:column>
+        </b:row>
+        <br/>
+        <b:row>
+            <b:column span="12" offset="1">                                           
+                <p:spacer height="10" />
+                <h3>Gráfico Histórico</h3>
+                <p:separator />
+                <h:form>
+                    <p:chart type="line" model="#{chartView.graficaTimeLine}" widgetVar="chart" style="height:400px;width: #{chartView.width}px;"/>                           
+                </h:form>                           
+            </b:column>
+
+        </b:row>
+
+    </h:body>
+</html>

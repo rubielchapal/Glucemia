@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/app.ico"/>
+        <title>Glucometrías</title>
+    </h:head>
+    <h:body style="background-color: #9CD2F0;">
+        <b:growl globalOnly="true" id="growl" showDetail="true" delay="3000"  />
+        <f:metadata>
+            <f:viewAction action="#{pagePatientController.datosPaciente(loginUserController.ndivalue)}"/>
+            
+            <f:viewAction action="#{registerGlucoseController.glucose.setPacient(loginUserController.ndivalue)}"/>    
+            <f:viewAction action="#{pagePatientController.mostrarTabla(loginUserController.ndivalue)}"/>
+            <f:viewAction action="#{loginUserController.validateSession('patient')}"/>
+          
+        </f:metadata>
+        
+        <b:navBar brand="Glucometrías!" brandHref="#">
+            <h:form class="navbar-form navbar-right">                
+                <b:row>
+                    <b:column span="4"> <b:commandButton  action="#{pagePatientController.redirectPagePatient()}"  value="Volver" look="info" /></b:column>
+                    <b:column span="4"><b:commandButton  action="#{loginUserController.logoutUser()}" value="Cerrar Sesión"  />  </b:column>              
+                </b:row>     
+            </h:form>
+        </b:navBar>
+        
+        <b:container> 
+
+            <b:row>
+                <b:column span="12">
+                    <b:panel title="Informacion del Paciente" collapsible="false" look="info">
+                        <h:form>
+                            <p:spacer height="10" />
+                            <h3>Informacion del paciente</h3>
+                            <p:separator />
+                            <b:row>
+                                <b:column span="10" offset="1">
+                                    <b:panelGrid columns="4" > 
+                                        <h:outputLabel value="Nombre: "  />
+                                        <h:outputText value="#{pagePatientController.patient.given} #{pagePatientController.patient.family}"/>
+                                        <h:outputLabel value="#{pagePatientController.patient.ndi} "  />
+                                        <h:outputText value="#{pagePatientController.patient.ndivalue}"/>
+
+                                        <h:outputLabel value="Tipo de sangre: "  />
+                                        <h:outputText value="#{pagePatientController.patient.blood}"/>
+                                        <h:outputLabel value="Telefono de casa: "  />
+                                        <h:outputText value="#{pagePatientController.patient.telhome}"/>
+
+                                        <h:outputLabel value="Telefono de oficina "  />
+                                        <h:outputText value="#{pagePatientController.patient.telwork}"/>
+                                        <h:outputLabel value="Telefono movil "  />
+                                        <h:outputText value="#{pagePatientController.patient.telmobile}"/>
+
+                                        <h:outputLabel value="Edad: "  />
+                                        <h:outputText value="#{pagePatientController.patient.birthDate}"/>
+                                        <h:outputLabel value="email: "  />
+                                        <h:outputText value="#{pagePatientController.patient.email}"/>
+
+                                        <h:outputLabel value="Dirección: "  />
+                                        <h:outputText value="#{pagePatientController.patient.line} de #{pagePatientController.patient.city}"/>
+                                        <h:outputLabel value="EPS "  />
+                                        <h:outputText value="#{pagePatientController.patient.managingOrganization}"/>
+                                    </b:panelGrid>  
+                                </b:column>
+                            </b:row>
+                            <p:spacer height="10" />
+                            <h3>Tabla</h3>
+                            <p:separator />
+                            <b:row>
+                                <b:column span="12" >
+                                    <p:dataTable var="dato" value="#{pagePatientController.listaGlucose}" reflow="true" rows="10" paginator="true">
+                                        <p:column headerText="Fecha">
+                                            <h:outputText value="#{dato.issued}" />
+                                        </p:column>
+
+                                        <p:column headerText="Nivel">
+                                            <h:outputText value="#{dato.code}" />
+                                        </p:column>
+
+                                        <p:column headerText="Medida(mmol/l)">
+                                            <h:outputText value="#{dato.valueQuantity}" />
+                                        </p:column>
+
+                                        <p:column headerText="Estado">
+                                            <h:outputText value="#{dato.state}" />
+                                        </p:column>
+
+                                        <p:column headerText="Tomada por:">
+                                            <h:outputText value="#{dato.performer}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </b:column>
+                            </b:row>
+                            <br/>  
+                            <b:row>
+                                <b:column span="12">
+                                    <b:commandButton  action="#{pagePatientController.redirectPagePatient()}"  value="Volver" look="info" size="lg" ></b:commandButton>
+                                </b:column>
+                            </b:row>
+                        </h:form>
+                        
+                        
+                    </b:panel>
+                </b:column>
+            </b:row>
+        </b:container>
+    </h:body>
+</html>
+

@@ -1,0 +1,85 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="magnusdroid.com.glucup_2date.Controler.PacienteDetailActivity"
+    tools:ignore="MergeRootFrame"
+    android:background="@color/primary_light">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_pacient_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/paciente_detail_container"
+        app:layout_anchorGravity="top|right|end"
+        app:srcCompat="@drawable/add_ic"
+        app:layout_behavior="magnusdroid.com.glucup_2date.Model.ScrollFABBehavior"
+        app:layout_constraintRight_toRightOf="@+id/app_bar"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toTopOf="@+id/app_bar"
+        android:layout_marginTop="40dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_pacient_detail2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:backgroundTint="@color/bg_screen4"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/ic_search"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/fab_pacient_detail1"
+        app:layout_constraintLeft_toLeftOf="@+id/fab_pacient_detail" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_pacient_detail1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:tag="@string/app_name"
+        app:elevation="6dp"
+        app:backgroundTint="@color/bg_screen3"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/ic_message"
+        app:layout_anchor="@+id/paciente_detail_container"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/fab_pacient_detail"
+        app:layout_constraintLeft_toLeftOf="@+id/fab_pacient_detail" />
+
+    <FrameLayout
+        android:id="@+id/paciente_detail_container"
+        android:layout_width="320dp"
+        android:layout_height="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.56" />
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,13 @@
+/* 
+    Created on : 14/09/2016, 08:44:11 AM
+    Author     : GTST
+*/
+
+.Bimage{background-image:url("../resources/img/fondo.jpg}") ;}
+
+.caja{ color: #fff; background-color: rgba(48,118,153,0.5);}
+
+
+ #layout-footer{position:fixed; bottom:0; width:99%; color: #fff; background-color: rgba(48,118,153,0.5); z-index: 999;}
+
+
