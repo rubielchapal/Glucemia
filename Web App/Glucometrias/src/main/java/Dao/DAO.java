@@ -392,7 +392,7 @@ public class DAO {
      * @throws SQLException
      */
     public void registerPersonal(JsonElement identifier, String password, JsonElement name, JsonElement telecom, String gender, String birthDate, JsonElement address, JsonElement practitionerRole, String token) throws SQLException {
-        sql = "INSERT INTO personal (identifier,password,name,gender,birthDate,practitionerRole,telecom,address)"
+        sql = "INSERT INTO personal (identifier,password,name,gender,birthDate,practitionerRole,telecom,address,token_id)"
                 + "VALUES ('" + identifier + "','" + password + "','" + name + "','" + gender + "','" + birthDate + "','" + practitionerRole + "','" + telecom + "','" + address + "','" + token + "')";
         ps = conexion.prepareStatement(sql);
         ps.executeUpdate();
